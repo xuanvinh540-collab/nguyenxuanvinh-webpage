@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyen Xuan Vinh — Archviz Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23262b1f'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='26' fill='%23d4ff00'%3EVX%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #262b1f;
+    --bg-2: #30362a;
+    --ink: #f7f7f2;
+    --white: #ffffff;
+    --muted: #b9a58c;
+    --accent: #d4ff00;
+    --coffee: #a57c56;
+    --line: rgba(236, 234, 217, .16);
+    --display: "Anton", "Impact", sans-serif;
+    --body: "Inter", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  .label { font-size: 12px; letter-spacing: .02em; text-transform: lowercase; color: var(--muted); }
+  .display { font-family: var(--display); text-transform: uppercase; line-height: .86; letter-spacing: -.01em; font-weight: 400; }
+  .wrap { padding: 0 clamp(16px, 3vw, 40px); }
+
+  /* Nav */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 18px clamp(16px, 3vw, 40px); mix-blend-mode: difference; }
+  .nav .mark { font-family: var(--display); font-size: 22px; letter-spacing: .02em; }
+  .nav .links { display: flex; gap: 22px; font-size: 13px; text-transform: lowercase; }
+
+  /* ---- 1. Scroll fly-through ---- */
+  .fly { position: relative; height: 520vh; }
+  .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #000; }
+  .scene { position: absolute; inset: 0; will-change: transform, opacity; }
+  .scene img { width: 100%; height: 100%; object-fit: cover; }
+  .stage::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(38,43,31,.85) 100%); }
+  .hero-title { position: absolute; left: clamp(16px, 3vw, 40px); bottom: 12vh; z-index: 3; font-size: clamp(44px, 9vw, 150px); }
+  .hero-title span { display: block; }
+  .hero-title span:last-child { padding-left: .9em; color: var(--accent); }
+  .hero-meta { position: absolute; right: clamp(16px, 3vw, 40px); bottom: 13vh; z-index: 3; text-align: right; max-width: 260px; }
+  .hero-meta strong { display: block; font-weight: 500; font-size: 14px; color: var(--ink); }
+  .caption { position: absolute; left: clamp(16px, 3vw, 40px); bottom: 9vh; z-index: 3; opacity: 0; }
+  .caption .num { font-family: var(--display); font-size: clamp(48px, 7vw, 110px); line-height: .9; }
+  .caption .txt { font-size: 14px; margin-top: 6px; }
+  .progress { position: absolute; left: clamp(16px, 3vw, 40px); right: clamp(16px, 3vw, 40px); bottom: 4vh; z-index: 3; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .progress i { height: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .progress i b { position: absolute; inset: 0; background: var(--ink); transform-origin: left; transform: scaleX(0); }
+  .hint { position: absolute; top: 50%; right: clamp(16px, 3vw, 40px); z-index: 3; writing-mode: vertical-rl; }
+
+  /* ---- 2. Ticker ---- */
+  .ticker { border-block: 1px solid var(--line); overflow: hidden; white-space: nowrap; padding: 14px 0; }
+  .ticker div { display: inline-block; animation: tick 28s linear infinite; font-family: var(--display); font-size: clamp(28px, 4vw, 54px); text-transform: uppercase; }
+  .ticker em { font-style: normal; color: var(--accent); padding: 0 .4em; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* ---- 3. Statement ---- */
+  .statement { display: grid; grid-template-columns: 1fr 2.2fr; gap: 40px; padding-block: clamp(80px, 14vw, 180px); }
+  .statement p { font-size: clamp(24px, 3.2vw, 46px); line-height: 1.15; letter-spacing: -.015em; font-weight: 500; }
+  .statement p span { color: var(--coffee); }
+  .sign { margin-top: 32px; font-family: var(--display); font-size: 28px; color: var(--ink); }
+  .sign::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 12px; background: var(--accent); vertical-align: middle; }
+
+  /* ---- 4. Selected works ---- */
+  .sec-head { display: flex; justify-content: space-between; align-items: end; padding-bottom: 24px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+  .sec-head h2 { font-size: clamp(48px, 9vw, 140px); }
+  /* Lưới đều: các ô cùng hàng có cùng chiều cao (--h), ảnh luôn cover nên không bị chênh dù ảnh gốc khác tỉ lệ */
+  .works-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin: 8px 0 clamp(40px, 5vw, 72px); }
+  .works-intro p { max-width: 40ch; color: var(--muted); font-size: 15px; }
+  .works-intro .count { font-family: var(--display); font-size: clamp(64px, 11vw, 170px); line-height: .8; text-align: right; color: transparent; -webkit-text-stroke: 1px rgba(239,233,223,.35); }
+  .works { position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 16px; row-gap: clamp(56px, 7vw, 110px); padding-bottom: clamp(80px, 12vw, 160px); }
+  .work { position: relative; margin: 0; }
+  .work .ph { position: relative; height: var(--h); overflow: hidden; background: var(--bg-2);
+    clip-path: inset(14% 0 0 0); transition: clip-path 1.3s cubic-bezier(.2,.7,.2,1); }
+  .work.in .ph { clip-path: inset(0); }
+  .work .ph img { position: absolute; left: 0; top: -10%; width: 100%; height: 120%; object-fit: cover; will-change: transform;
+    transform: translate3d(0, var(--py, 0px), 0) scale(1.06); transition: filter .6s; }
+  .work:hover .ph img { filter: brightness(1.08); }
+  .work .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10,10,9,.82) 0%, rgba(10,10,9,.25) 34%, rgba(10,10,9,0) 55%); pointer-events: none; }
+  .work figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; grid-template-columns: auto 1fr auto; column-gap: 18px; row-gap: 6px; align-items: end; padding: clamp(16px, 2vw, 28px); }
+  .work figcaption > * { opacity: 0; transform: translateY(18px); transition: opacity .8s, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .work.in figcaption > * { opacity: 1; transform: none; }
+  .work.in figcaption > :nth-child(2) { transition-delay: .12s; } .work.in figcaption > :nth-child(3) { transition-delay: .2s; } .work.in figcaption > :nth-child(4) { transition-delay: .28s; }
+  .work .no { grid-row: 1 / span 2; font-family: var(--display); font-size: clamp(44px, 5.4vw, 92px); line-height: .78; color: var(--accent); }
+  .work .name { font-family: var(--display); text-transform: uppercase; font-size: clamp(26px, 2.8vw, 46px); line-height: .9; letter-spacing: .005em; }
+  .work .meta { font-size: 12px; letter-spacing: .04em; text-transform: lowercase; color: rgba(239,233,223,.72); }
+  .work .tag { grid-column: 3; grid-row: 1 / span 2; font-size: 11px; text-transform: lowercase; border: 1px solid rgba(239,233,223,.45); border-radius: 99px; padding: 5px 12px; white-space: nowrap; }
+  .w-a { grid-column: 1 / 9;  --h: clamp(340px, 40vw, 640px); }
+  .w-b { grid-column: 9 / 13; --h: clamp(340px, 40vw, 640px); }
+  .w-c { grid-column: 1 / 6;  --h: clamp(300px, 31vw, 500px); }
+  .w-d { grid-column: 6 / 13; --h: clamp(300px, 31vw, 500px); }
+  .w-e { grid-column: 1 / 13; --h: clamp(320px, 42vw, 680px); }
+  /* hoạ tiết mảng: khối accent sau ô b, vòng contour sau ô c */
+  .w-b::before { content: ""; position: absolute; z-index: -1; top: -22px; right: -14px; width: 58%; height: 42%; background: var(--accent); }
+  .w-c::before { content: ""; position: absolute; z-index: -1; left: -70px; top: -70px; width: 240px; height: 240px; border-radius: 50%;
+    border: 1px solid rgba(239,233,223,.16); box-shadow: 0 0 0 28px rgba(38,43,31,0), 0 0 0 29px rgba(239,233,223,.1), 0 0 0 58px rgba(38,43,31,0), 0 0 0 59px rgba(239,233,223,.06); }
+  /* dải chữ lớn chạy theo cuộn */
+  .type-row { grid-column: 1 / -1; overflow: hidden; margin: -24px 0; pointer-events: none; }
+  .type-row div { white-space: nowrap; font-family: var(--display); text-transform: uppercase; font-size: clamp(60px, 10vw, 170px); line-height: .9;
+    color: transparent; -webkit-text-stroke: 1px rgba(239,233,223,.22); will-change: transform; transform: translate3d(var(--tx, 0px), 0, 0); }
+  .type-row em { font-style: normal; color: var(--accent); -webkit-text-stroke: 0; }
+
+  /* ---- 5. Split cards ---- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-bottom: clamp(80px, 12vw, 160px); }
+  .card { position: relative; height: 78vh; min-height: 460px; overflow: hidden; cursor: pointer; clip-path: inset(10% 4% 0 4%); transition: clip-path 1.3s cubic-bezier(.2,.7,.2,1); }
+  .card.in { clip-path: inset(0); }
+  .card img { position: absolute; left: 0; top: -10%; width: 100%; height: 120%; object-fit: cover; filter: brightness(.6); transition: filter .6s;
+    transform: translate3d(0, var(--py, 0px), 0) scale(1.06); will-change: transform; }
+  .card:hover img { filter: brightness(.85); }
+  .card .display { position: absolute; left: 24px; bottom: 24px; font-size: clamp(60px, 9vw, 150px); }
+  .card .label { position: absolute; left: 24px; top: 24px; color: var(--ink); }
+  .card .go { position: absolute; right: 24px; bottom: 28px; font-size: 13px; border: 1px solid var(--ink); border-radius: 99px; padding: 8px 16px; transition: background .3s, color .3s; }
+  .card:hover .go { background: var(--ink); color: var(--bg); }
+
+  /* ---- 6. Masterplans: 3 thẻ ngang hàng + ô "xem tất cả", bấm mở gallery ---- */
+  .mp-show { display: grid; grid-template-columns: 1.5fr 1fr 1fr .62fr; gap: 16px; margin-bottom: clamp(80px, 12vw, 160px); }
+  .mp-card { height: 72vh; min-height: 420px; }
+  .mp-card .mp-name { position: absolute; left: 24px; right: 24px; bottom: 24px; font-family: var(--display); text-transform: uppercase; font-weight: 400; line-height: .9; font-size: clamp(30px, 3.4vw, 58px); }
+  .mp-more { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; border: 1px solid var(--line); background: rgba(212,255,0,.04); transition: background .4s; }
+  .mp-more:hover { background: rgba(212,255,0,.12); }
+  .mp-count { font-family: var(--display); font-size: clamp(64px, 8vw, 140px); line-height: .8; color: transparent; -webkit-text-stroke: 1px var(--accent); }
+  .mp-more .go { align-self: flex-start; font-size: 13px; border: 1px solid var(--ink); border-radius: 99px; padding: 8px 16px; transition: background .3s, color .3s; }
+  .mp-more:hover .go { background: var(--ink); color: var(--bg); }
+
+  /* ---- 6b. Masterplans strip (cũ) ---- */
+  .strip { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 24px; margin-bottom: clamp(80px, 12vw, 160px); scrollbar-width: thin; cursor: grab; user-select: none; }
+  .strip.dragging, .g-track.dragging { cursor: grabbing; }
+  .strip figure { flex: 0 0 clamp(260px, 30vw, 480px); }
+  .strip img { aspect-ratio: 4/3; object-fit: cover; width: 100%; pointer-events: none; }
+  .strip figcaption { padding-top: 10px; font-size: 13px; }
+
+  /* ---- Gallery overlay (Exterior / Interior): cuộn chuột hoặc kéo để xem ngang ---- */
+  .gallery { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; background: rgba(12,12,11,.97);
+    opacity: 0; visibility: hidden; transition: opacity .5s, visibility .5s; }
+  .gallery.open { opacity: 1; visibility: visible; }
+  .gallery .g-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; padding: 22px clamp(16px, 3vw, 40px) 14px; }
+  .gallery .g-head h3 { font-size: clamp(44px, 7vw, 110px); }
+  .gallery .g-close { font: inherit; font-size: 13px; color: var(--ink); background: none; border: 1px solid var(--ink); border-radius: 99px; padding: 8px 16px; cursor: pointer; }
+  .gallery .g-track { flex: 1; min-height: 0; display: flex; gap: 16px; align-items: center; overflow-x: auto; overflow-y: hidden; padding: 0 clamp(16px, 3vw, 40px); scrollbar-width: none; cursor: grab; user-select: none; }
+  .gallery .g-track::-webkit-scrollbar { display: none; }
+  .gallery figure { flex: 0 0 auto; height: min(68vh, 720px); margin: 0; opacity: 0; transform: translateX(60px); transition: opacity .8s, transform 1s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--i, 0) * 60ms); }
+  .gallery.open figure { opacity: 1; transform: none; }
+  .gallery figure img { height: calc(100% - 30px); width: auto; max-width: 86vw; object-fit: cover; pointer-events: none; }
+  .gallery figcaption { padding-top: 10px; font-size: 12px; color: var(--muted); }
+  .gallery .g-foot { display: flex; align-items: center; gap: 16px; padding: 16px clamp(16px, 3vw, 40px) 24px; font-size: 12px; color: var(--muted); }
+  .gallery .g-bar { flex: 1; height: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .gallery .g-bar b { position: absolute; inset: 0; background: var(--ink); transform-origin: left; transform: scaleX(0); }
+
+  /* ---- 7. Footer ---- */
+  .footer { background: var(--coffee); color: var(--bg); padding-block: clamp(60px, 10vw, 120px) 28px; }
+  .footer .display { font-size: clamp(80px, 19vw, 300px); }
+  .footer .display span { display: block; }
+  .footer .display span:last-child { padding-left: 1.2em; }
+  .footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-top: 48px; font-size: 14px; border-top: 1px solid rgba(38,43,31,.25); padding-top: 18px; }
+  .footer .label { color: rgba(38,43,31,.6); }
+  /* logo khách hàng: 2 hàng chạy ngược chiều, rê chuột để dừng */
+  .footer { overflow: hidden; }
+  .clients-head { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+  .clients { display: grid; gap: 16px; margin-inline: calc(-1 * clamp(16px, 3vw, 40px)); }
+  .logo-row { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .logo-track { display: flex; gap: 16px; width: max-content; animation: logos 70s linear infinite; }
+  .r2l .logo-track { animation-direction: reverse; animation-duration: 80s; }
+  .logo-row:hover .logo-track { animation-play-state: paused; }
+  .logo { flex: 0 0 auto; display: grid; place-items: center; width: clamp(150px, 15vw, 230px); height: clamp(94px, 9.4vw, 144px); padding: 16px 24px; background: #fff; border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(38,43,31,.12); transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+  .logo:hover { transform: translateY(-4px) scale(1.04); }
+  .logo img { display: block; width: 100%; height: 100%; object-fit: contain; transform: scale(.86); mix-blend-mode: multiply; }
+  .logo { display: block !important; overflow: hidden; }
+  @keyframes logos { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } .logo-row { overflow-x: auto; } }
+
+  @media (max-width: 760px) {
+    .nav .links a:not(:last-child) { display: none; }
+    .hero-meta, .hint { display: none; }
+    .orbit .meta-r { display: none; }
+    .statement { grid-template-columns: 1fr; }
+    .works > * { grid-column: 1 / -1 !important; margin-top: 0 !important; --h: 68vw !important; }
+    .works-intro { grid-template-columns: 1fr; }
+    .w-c::before { display: none; }
+    .split { grid-template-columns: 1fr; }
+    .card { height: 64vh; }
+    .mp-show { grid-template-columns: 1fr 1fr; } .mp-show .mp-card:first-child { grid-column: 1 / -1; } .mp-card { height: 52vh; min-height: 300px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker div { animation: none; }
+    .work .ph, .card { clip-path: none !important; }
+    .work figcaption > * { opacity: 1 !important; transform: none !important; }
+  }
+
+  /* ---- 0. Orbit hero: đĩa ảnh trôi + contour ---- */
+  /* orbit ghim lại 120vh: chữ bay lên + mờ dần rồi hòa vào ảnh fly-through nằm ngay bên dưới (không có đường ranh) */
+  .orbit-wrap { position: relative; z-index: 2; height: 220vh; pointer-events: none; }
+  .orbit-wrap + .fly { margin-top: -220vh; height: 640vh; z-index: 1; }
+  .orbit { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1400px; background: radial-gradient(ellipse at 50% 38%, #343b2a 0%, #262b1f 68%); pointer-events: auto; will-change: opacity; }
+  .orbit .word { will-change: transform, opacity, letter-spacing; }
+  .orbit canvas.contour { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 38%, rgba(0,0,0,.45) 100%); mask-image: radial-gradient(ellipse at 50% 45%, #000 38%, rgba(0,0,0,.45) 100%); }
+  .orbit .shape { position: absolute; left: 0; top: 0; will-change: transform; cursor: pointer; transform-style: preserve-3d; }
+  /* viền halo cầu vồng kiểu đĩa CD */
+  .orbit .shape::before { content: ""; position: absolute; inset: -5px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #8a8d92, #f4f6f8, #a7abb0, #e2e5e9, #7d8085, #ffffff, #9a9ea3, #d8dbdf, #8a8d92);
+    -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+            mask: radial-gradient(closest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    opacity: .9; filter: drop-shadow(0 0 6px rgba(255, 255, 255, .25)); }
+  .orbit .shape .in { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,.5); }
+  /* ánh óng ánh trên mặt đĩa */
+  .orbit .shape .in::after { content: ""; position: absolute; inset: 0; border-radius: 50%; mix-blend-mode: screen; opacity: .18;
+    background: conic-gradient(from 90deg, transparent 0 12%, #fff 17%, transparent 23% 55%, #dfe3e8 62%, transparent 70%); }
+  .orbit .shape img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .orbit .word { position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 10; text-align: center; pointer-events: none;
+    font-family: var(--display); line-height: .86; letter-spacing: -.01em; font-size: clamp(80px, 20vw, 330px); }
+  .orbit .word span { color: var(--coffee); }
+  .orbit .word { font-family: var(--display); text-transform: uppercase; line-height: .9; letter-spacing: 0 !important; }
+  .orbit .word .w1, .orbit .word .w2 { display: block; width: max-content; margin: 0 auto; white-space: nowrap; }
+  .orbit .word .w1 { color: var(--accent); font-size: clamp(64px, 15vw, 250px); letter-spacing: .28em; padding-left: .28em; }
+  .orbit .word .w2 { color: var(--ink); font-size: clamp(24px, 5vw, 84px); margin-top: .15em; margin-bottom: 4vh; }
+  .tools { display: inline-flex; align-items: center; gap: 10px; }
+  .tools img { height: 22px; width: auto; }
+  .orbit .meta { position: absolute; left: clamp(16px, 3vw, 40px); bottom: 2.5vh; z-index: 10; }
+  .orbit .meta-r { left: auto; right: clamp(16px, 3vw, 40px); text-align: right; }
+  .orbit .tip { position: absolute; z-index: 30; left: 50%; top: 14vh; transform: translateX(-50%); opacity: 0; transition: opacity .3s; pointer-events: none; font-size: 13px; }
+  .orbit .tip.on { opacity: 1; }
+
+  /* ---- Admin edit mode (chỉ hiện khi đăng nhập admin) ---- */
+  body.admin [data-ed] { outline: 1px dashed rgba(212,255,0,.0); outline-offset: 3px; transition: outline-color .2s; }
+  body.admin [data-ed]:hover { outline-color: rgba(212,255,0,.7); cursor: text; }
+  body.admin [data-ed]:focus { outline: 1px solid var(--accent); }
+  body.admin .orbit, body.admin .orbit * { pointer-events: auto; }
+  body.admin .orbit .name-fx, body.admin .orbit.gone, body.admin .orbit.gone * { pointer-events: none; }
+  .admin-bar { position: fixed; z-index: 100; left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; gap: 8px; align-items: center;
+    padding: 8px 10px 8px 16px; border-radius: 99px; background: rgba(38,43,31,.92); border: 1px solid var(--line); backdrop-filter: blur(10px); font-size: 13px; }
+  .admin-bar button, .admin-panel button { font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; cursor: pointer; }
+  .admin-bar button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+  .admin-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .admin-bar .status { color: var(--muted); min-width: 120px; }
+  .admin-panel { position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; width: min(360px, 92vw); overflow-y: auto; padding: 20px 16px 90px;
+    background: rgba(38,43,31,.97); border-left: 1px solid var(--line); transform: translateX(100%); transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .admin-panel.open { transform: none; }
+  .admin-panel h4 { font-weight: 500; font-size: 13px; color: var(--muted); margin: 18px 0 10px; text-transform: lowercase; }
+  .admin-panel .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .admin-panel .item { position: relative; cursor: pointer; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }
+  .admin-panel .item img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .admin-panel .item span { display: block; padding: 4px 6px; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .admin-panel .item.changed { border-color: var(--accent); }
+  .admin-panel .item:hover img { opacity: .75; }
+
+  /* Contour nền chạy suốt trang (vẽ chung với hero) */
+  .bg-contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, rgba(0,0,0,.35) 100%); mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, rgba(0,0,0,.35) 100%); }
+
+  /* Admin: sửa ảnh trực tiếp trên trang */
+  .adm-hl { position: fixed; z-index: 125; pointer-events: none; display: none; outline: 1px solid var(--accent); outline-offset: -1px; background: rgba(212,255,0,.06); }
+  .adm-tools { position: fixed; z-index: 130; display: none; gap: 6px; }
+  .adm-tools button { font: 500 12px/1 var(--body); color: var(--ink); background: rgba(38,43,31,.92); border: 1px solid rgba(236,234,217,.3); border-radius: 99px; padding: 8px 13px; cursor: pointer; backdrop-filter: blur(8px); }
+  .adm-tools button:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .adm-tools button.del:hover { background: #e5484d; color: #fff; border-color: #e5484d; }
+  .adm-add { flex: 0 0 clamp(200px, 20vw, 300px); min-height: 220px; align-self: stretch; display: grid; place-items: center; font: 500 13px var(--body);
+    color: var(--accent); background: rgba(212,255,0,.05); border: 1px dashed rgba(212,255,0,.6); border-radius: 4px; cursor: pointer; }
+  .adm-add:hover { background: rgba(212,255,0,.14); }
+  .g-track .adm-add { height: min(68vh, 720px); align-self: center; }
+  .adm-gone { animation: admGone .35s forwards; }
+  @keyframes admGone { to { opacity: 0; transform: scale(.94); } }
+
+  /* Lenis smooth scroll */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  /* Chữ tên tan thành hạt + chuyển cảnh WebGL */
+  .orbit .name-fx { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 11; pointer-events: none; }
+  .fly .fly-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .fly.gl-on .scene { visibility: hidden; }
+  /* Ảnh bên dưới vẽ bằng WebGL (js/scroll-gl.js): canvas nằm sau nội dung, ảnh DOM ẩn đi nhưng vẫn giữ chỗ */
+  .scroll-gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+  .scroll-gl-on img.gl-hide { opacity: 0 !important; }
+  .scroll-gl-on .work .ph { background: transparent; }
+  .scroll-gl-on .w-b::before, .scroll-gl-on .w-c::before { display: none; }
+</style>
+</head>
+<body>
+<canvas class="bg-contour" id="bgContour" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <a class="mark" href="#">VinhNX</a>
+  <div class="links">
+    <a href="#works">works</a>
+    <a href="#about">about</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- 0. Orbit hero: đĩa ảnh Exterior trôi quanh chữ, nền contour -->
+<section class="orbit-wrap" id="orbitWrap">
+  <div class="orbit" id="orbit">
+    <canvas class="contour" id="contour"></canvas>
+    <div class="word" id="orbitWord"><span class="w1">Nguyen</span><span class="w2" style="letter-spacing: 91.0243px; padding-left: 91.0243px;">Xuan Vinh</span></div>
+    <div class="label meta">nguyen xuan vinh — archviz</div>
+    <div class="label meta meta-r">highrise · resort · hospital · hotel</div>
+    <div class="label tip" id="tip"></div>
+  </div>
+</section>
+
+<!-- 1. Scroll fly-through: 4 ảnh villa, cuộn = camera đi vào -->
+<section class="fly" id="fly">
+  <div class="stage">
+    <div class="scene" data-origin="52% 62%"><img src="img/uploads/Lanscape1.jpg" alt="Asni Marrakech, resort garden"></div>
+    <div class="scene" data-origin="50% 55%"><img src="img/uploads/p19_1.jpg" alt="Asni Marrakech, hotel lobby"></div>
+    <div class="scene" data-origin="45% 60%"><img src="img/uploads/Entrance%20dakkla.jpg" alt="Kaan Dakhla, resort entrance"></div>
+
+    <h1 class="hero-title display" id="heroTitle"><span>Asni</span><span>Marrakech</span></h1>
+    <div class="hero-meta label" id="heroMeta"><strong>Architectural visualization</strong>Morocco — resort &amp; hotel</div>
+    <div class="hint label" id="hint">scroll to enter ↓</div>
+
+    <div class="caption" data-scene="0"><div class="num">01</div><div class="txt label">asni marrakech — the garden</div></div>
+    <div class="caption" data-scene="1"><div class="num">02</div><div class="txt label">asni marrakech — lobby</div></div>
+    <div class="caption" data-scene="2"><div class="num">03</div><div class="txt label">kaan dakhla — entrance</div></div>
+
+    <div class="progress"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  </div>
+</section>
+
+<!-- 2. Ticker -->
+<div class="ticker" aria-hidden="true">
+  <div>Archviz <em>●</em> Highrise <em>●</em> Resort <em>●</em> Hospital <em>●</em> Hotel <em>●</em> Interior <em>●</em> Masterplan <em>●</em> Archviz <em>●</em> Highrise <em>●</em> Resort <em>●</em> Hospital <em>●</em> Hotel <em>●</em> Interior <em>●</em> Masterplan <em>●</em></div>
+</div>
+
+<!-- 3. Statement -->
+<section class="statement wrap" id="about">
+  <div class="label">a message from vinh</div>
+  <div>
+    <p>I turn drawings into places you can almost walk into. <span>Highrises, resorts, hospitals and hotels — rendered with light, material and time of day in mind.</span></p>
+    <div class="sign">— Nguyen Xuan Vinh</div>
+  </div>
+</section>
+
+<!-- 4. Selected works -->
+<section class="wrap" id="works">
+  <div class="sec-head"><h2 class="display">Selected<br>works</h2><span class="label">selected projects</span></div>
+  <div class="works-intro">
+    <p>Highrise, healthcare, hospitality and masterplans in Vietnam, Morocco and France — each image built around light, material and the moment of arrival.</p>
+    <div class="count">05</div>
+  </div>
+  <div class="works">
+    <figure class="work w-a"><div class="ph"><img src="img/uploads/LuongHoa%20rs.jpg" alt="Luong Hoa Residence masterplan"></div>
+      <figcaption><span class="no">01</span><span class="name">Luong Hoa Residence</span><span class="meta">Long An · Vietnam</span><span class="tag">master plan</span></figcaption></figure>
+    <figure class="work w-b"><div class="ph"><img src="img/uploads/wink%20hotel.jpg" alt="Wink Hotel"></div>
+      <figcaption><span class="no">02</span><span class="name">Wink Hotel</span><span class="meta">Ho Chi Minh City</span><span class="tag">hotel</span></figcaption></figure>
+    <div class="type-row" aria-hidden="true"><div data-marq="-1">Highrise <em>●</em> Resort <em>●</em> Hospital <em>●</em> Hotel <em>●</em> Highrise <em>●</em> Resort <em>●</em></div></div>
+    <figure class="work w-c"><div class="ph"><img src="img/pdf/p10_1.jpg" alt="Morocco Resort entrance"></div>
+      <figcaption><span class="no">03</span><span class="name">Morocco Resort</span><span class="meta">Morocco</span><span class="tag">resort</span></figcaption></figure>
+    <figure class="work w-d"><div class="ph"><img src="img/uploads/p07_1.jpg" alt="Bai Om Resort"></div>
+      <figcaption><span class="no">04</span><span class="name">Bai Om Resort</span><span class="meta">Vietnam</span><span class="tag">resort</span></figcaption></figure>
+    <figure class="work w-e"><div class="ph"><img src="img/uploads/Mid%20Asia.jpg" alt="Cotaa Aledgo Resort aerial"></div>
+      <figcaption><span class="no">05</span><span class="name">Cotaa Aledgo Resort</span><span class="meta">Vietnam</span><span class="tag">resort · aerial</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- 5. Split cards: bấm để mở gallery kéo ngang -->
+<section class="split wrap">
+  <a class="card" href="#gal-ext" data-gallery="gal-ext"><img src="img/uploads/06-SA-Street-2.jpg" alt="Jabal al Shifa, street"><span class="label">exterior</span><h3 class="display">Exte<br>rior</h3><span class="go">view gallery →</span></a>
+  <a class="card" href="#gal-int" data-gallery="gal-int"><img src="img/pdf/p19_1.jpg" alt=""><span class="label">interior</span><h3 class="display">Inte<br>rior</h3><span class="go">view gallery →</span></a>
+</section>
+
+<!-- Gallery Exterior -->
+<div class="gallery" id="gal-ext" data-lenis-prevent="" aria-hidden="true">
+  <div class="g-head"><h3 class="display">Exterior</h3><button class="g-close" type="button">close ✕</button></div>
+  <div class="g-track">
+    <figure><img loading="lazy" src="img/pdf/p07_1.jpg" alt=""><figcaption>Bai Om Resort — arrival</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p08_1.jpg" alt=""><figcaption>Bai Om Resort — pool pavilion</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p09_1.jpg" alt=""><figcaption>Bai Om Resort — infinity pool</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p10_1.jpg" alt=""><figcaption>Morocco Resort — entrance</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/exsel%20martini%20copy.jpg" alt=""><figcaption>Exsel Martinique — pool deck</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p12_1.jpg" alt=""><figcaption>Cabana in France</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p04_1.jpg" alt=""><figcaption>FV Hospital</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p05_1.jpg" alt=""><figcaption>FV Hospital — facade</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/Lanscape1-2.jpg" alt=""><figcaption>Asni Marrakech — garden</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p14_2.jpg" alt=""><figcaption>Thinh Phat Residence — podium</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p16_1.jpg" alt=""><figcaption>Hung Khang Hotel</figcaption></figure>
+    
+    <figure><img loading="lazy" src="img/pdf/p16_3.jpg" alt=""><figcaption>Hung Khang Hotel — entrance</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p18_1.jpg" alt=""><figcaption>Asni Marrakech Resort</figcaption></figure>
+    
+    
+    <figure><img loading="lazy" src="img/pdf/p22_1.jpg" alt=""><figcaption>Wink Hotel</figcaption></figure>
+  </div>
+  <div class="g-foot"><span class="g-count">01 / 14</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
+</div>
+
+<!-- Gallery Interior -->
+<div class="gallery" id="gal-int" data-lenis-prevent="" aria-hidden="true">
+  <div class="g-head"><h3 class="display">Interior</h3><button class="g-close" type="button">close ✕</button></div>
+  <div class="g-track">
+    <figure><img loading="lazy" src="img/pdf/p19_1.jpg" alt=""><figcaption>Asni Marrakech — lobby</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p20_1.jpg" alt=""><figcaption>Asni Marrakech — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/BC-Bar%20Aerial%20copy.jpg" alt=""><figcaption>Beach bar</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p20_3.jpg" alt=""><figcaption>Asni Marrakech — reception</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/AZIZIAH_Interior.jpg" alt=""><figcaption>Aziziah — living room</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_2.jpg" alt=""><figcaption>Koon Domaine Resort — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_4.jpg" alt=""><figcaption>Koon Domaine Resort — hall</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_5.jpg" alt=""><figcaption>Koon Domaine Resort — restaurant</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p22_2.jpg" alt=""><figcaption>Wink Hotel — lobby</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p22_3.jpg" alt=""><figcaption>Wink Hotel — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p17_1.jpg" alt=""><figcaption>Riyad School — library</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_1.jpg" alt=""><figcaption>Thinh Phat Residence — living room</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_3.jpg" alt=""><figcaption>Thinh Phat Residence — kitchen</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_4.jpg" alt=""><figcaption>Thinh Phat Residence — apartment</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_6.jpg" alt=""><figcaption>Thinh Phat Residence — bathroom</figcaption></figure>
+  </div>
+  <div class="g-foot"><span class="g-count">01 / 15</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
+</div>
+
+<!-- 6. Masterplans -->
+<section class="wrap mp-sec">
+  <div class="sec-head"><h2 class="display">Master<br>plans</h2><span class="label">04 images · click to view</span></div>
+  <div class="mp-show">
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/pdf/p03_1.jpg" alt=""><span class="label">01 — masterplan</span><h3 class="mp-name">Luong Hoa</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.png" alt=""><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/ANTI%20TCI.jpg" alt=""><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
+    <a class="mp-more" href="#gal-mp" data-gallery="gal-mp"><span class="mp-count">04</span><span class="go">view all →</span></a>
+  </div>
+</section>
+
+<!-- Gallery Masterplans -->
+<div class="gallery" id="gal-mp" data-lenis-prevent="" aria-hidden="true">
+  <div class="g-head"><h3 class="display">Masterplans</h3><button class="g-close" type="button">close ✕</button></div>
+  <div class="g-track">
+    <figure><img loading="lazy" src="img/pdf/p03_1.jpg" alt=""><figcaption>Luong Hoa Masterplan</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p06_1.jpg" alt=""><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p13_1.jpg" alt=""><figcaption>Thinh Phat Residence — aerial</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p14_1.jpg" alt=""><figcaption>Thinh Phat Residence — site study</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/p04_1.jpg" alt=""><figcaption>FV Hospital</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/p06_1.jpg" alt=""><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
+  </div>
+  <div class="g-foot"><span class="g-count">01 / 06</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
+</div>
+
+<!-- 7. Footer -->
+<footer class="footer wrap" id="contact">
+  <div class="clients-head"><div class="label">clients i have worked with</div><div class="label">9 brands · developers · hospitality</div></div>
+  <div class="clients">
+    <div class="logo-row l2r"><div class="logo-track"><span class="logo"><img loading="lazy" src="img/clients/client-01.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-02.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-03.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-04.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-05.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-01.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-02.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-03.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-04.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-05.jpg" alt="Client logo"></span></div></div>
+    <div class="logo-row r2l"><div class="logo-track"><span class="logo"><img loading="lazy" src="img/clients/client-05.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-06.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-07.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-08.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/son-kim-land.jpg" alt="Son Kim Land"></span><span class="logo"><img loading="lazy" src="img/clients/client-05.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-06.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-07.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/client-08.jpg" alt="Client logo"></span><span class="logo"><img loading="lazy" src="img/clients/son-kim-land.jpg" alt="Son Kim Land"></span></div></div>
+  </div>
+  <div class="row"><a href="mailto:xuanvinh540@gmail.com">xuanvinh540@gmail.com<br>0938 571 867</a><span class="tools"><img src="img/tools/3ds-max.png" alt="3ds Max" data-k="68">3ds Max · instagram · behance · linkedin</span><span>© 2026 Nguyen Xuan Vinh</span></div>
+</footer>
+
+<script>
+  // Fly-through: mỗi ảnh zoom về điểm lấy nét rồi hòa vào ảnh kế tiếp
+  const fly = document.getElementById('fly');
+  const scenes = [...fly.querySelectorAll('.scene')];
+  const captions = [...fly.querySelectorAll('.caption')];
+  const bars = [...fly.querySelectorAll('.progress b')];
+  const intro = ['heroTitle', 'heroMeta', 'hint'].map(id => document.getElementById(id));
+  const N = scenes.length, seg = 1 / N, fade = seg * 0.35;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  scenes.forEach(s => s.style.transformOrigin = s.dataset.origin);
+
+  function update() {
+    const r = fly.getBoundingClientRect();
+    // fly nằm chồng dưới orbit; chỉ bắt đầu chạy sau khi orbit đã mờ hết
+    const lead = document.getElementById('orbitWrap').offsetHeight - innerHeight;
+    const p = clamp((-r.top - lead) / (r.height - innerHeight - lead));
+    scenes.forEach((s, i) => {
+      const start = i * seg;
+      const opacity = i === 0 ? 1 : clamp((p - (start - fade)) / fade);
+      const zoomMax = i === N - 1 ? 0.12 : 0.65;
+      const t = clamp((p - (start - fade)) / (seg + fade));
+      s.style.opacity = opacity;
+      s.style.transform = `scale(${1 + zoomMax * t * t})`;
+    });
+    captions.forEach((c, i) => {
+      const local = (p - i * seg) / seg;
+      c.style.opacity = i === 0 && p < 0.06 ? 0 : clamp(Math.min(local * 5, (1 - local) * 5));
+    });
+    bars.forEach((b, i) => b.style.transform = `scaleX(${clamp((p - i * seg) / seg)})`);
+    // lúc sửa (admin) giữ chữ tên dự án luôn hiện để bấm vào sửa được
+    const editing = document.body.classList.contains('admin');
+    intro.forEach(el => el.style.opacity = editing ? 1 : clamp(1 - p / 0.08));
+    window.__flyP = p;
+  }
+  addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+  addEventListener('resize', update);
+  update();
+</script>
+
+<script>
+// Hero v2: contour trên nền dark navy, không còn đĩa bay — chỉnh nhanh ở đây
+(() => {
+  const LEVELS = 26;          // số đường đồng mức (nhiều = dày)
+  const MAJOR_EVERY = 5;      // cứ mỗi 5 đường có 1 đường đậm hơn
+  const SPEED = 0.00011;      // tốc độ biến dạng (nhanh hơn bản cũ ~2.7 lần)
+  const CELL = 10;            // độ mịn lưới (nhỏ = mượt hơn, nặng hơn)
+  const MINOR = "rgba(165,124,86,.27)", MAJOR = "rgba(165,124,86,.46)";
+  const MOUSE_R = 360;        // vùng chuột ảnh hưởng (px)
+  const BOOST = 0.2;          // gần chuột: nhanh + mạnh hơn 20%
+
+  window.__orbitFiles = [];
+  const root = document.getElementById("orbit");
+  const wrap = document.getElementById("orbitWrap");
+  const word = document.getElementById("orbitWord");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rnd = i => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+  // Vẽ 1 lần lên canvas nền cố định (chạy suốt trang); hero chỉ chép lại hình đó ở độ sáng đầy đủ
+  const cv = document.getElementById("bgContour");
+  const ctx = cv.getContext("2d");
+  const heroCv = document.getElementById("contour");
+  const hctx = heroCv.getContext("2d");
+  const fly = document.getElementById("fly");
+  let W = 0, H = 0, cols = 0, rows = 0, field;
+  const P = new Uint8Array(512);
+  { const p = [...Array(256).keys()]; for (let i = 255; i > 0; i--) { const j = Math.floor(rnd(i + 99) * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; } for (let i = 0; i < 512; i++) P[i] = p[i & 255]; }
+  const sm = t => t * t * t * (t * (t * 6 - 15) + 10);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const h3 = (x, y, z) => P[(P[(P[x & 255] + y) & 255] + z) & 255] / 255;
+  function noise(x, y, z) {
+    const X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z);
+    const u = sm(x - X), v = sm(y - Y), w = sm(z - Z);
+    return lerp(
+      lerp(lerp(h3(X, Y, Z), h3(X + 1, Y, Z), u), lerp(h3(X, Y + 1, Z), h3(X + 1, Y + 1, Z), u), v),
+      lerp(lerp(h3(X, Y, Z + 1), h3(X + 1, Y, Z + 1), u), lerp(h3(X, Y + 1, Z + 1), h3(X + 1, Y + 1, Z + 1), u), v), w);
+  }
+  const fieldAt = (x, y, z) => noise(x, y, z) * .62 + noise(x * 2.1 + 40, y * 2.1, z * 1.35) * .26 + noise(x * 4.3 + 9, y * 4.3 + 71, z * 1.8) * .12;
+
+  function resize() {
+    W = innerWidth; H = innerHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = heroCv.width = W * dpr; cv.height = heroCv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(W / CELL) + 1; rows = Math.ceil(H / CELL) + 1;
+    field = new Float32Array(cols * rows);
+  }
+  addEventListener("resize", resize); resize();
+
+  // Chuột (làm mượt bằng lerp)
+  const mouse = { x: 0, y: 0, sx: 0, sy: 0, k: 0, on: false };
+  addEventListener("pointermove", e => {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    if (!mouse.on) { mouse.sx = mouse.x; mouse.sy = mouse.y; }
+    mouse.on = true;
+  }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => mouse.on = false);
+
+  const L0 = 0.12, STEP = 0.76 / LEVELS;
+  function draw(t) {
+    const z = t * SPEED, zFast = z * (1 + BOOST), sc = 1 / 300;
+    const R2 = MOUSE_R * MOUSE_R * 1.6;
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+      const px = i * CELL, py = j * CELL, x = px * sc, y = py * sc;
+      let v = fieldAt(x, y, z);
+      if (mouse.k > 0.01) {
+        const dx = px - mouse.sx, dy = py - mouse.sy, d2 = dx * dx + dy * dy;
+        if (d2 < R2) {
+          const f = (1 - d2 / R2) ** 2 * mouse.k;
+          v += (((fieldAt(x, y, zFast) - .5) * (1 + BOOST) + .5) - v) * f;
+        }
+      }
+      field[j * cols + i] = v;
+    }
+    ctx.clearRect(0, 0, W, H);
+    const minor = new Path2D(), major = new Path2D();
+    for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
+      const a = field[j * cols + i], b = field[j * cols + i + 1], c = field[(j + 1) * cols + i + 1], d = field[(j + 1) * cols + i];
+      const mn = Math.min(a, b, c, d), mx = Math.max(a, b, c, d);
+      const l0 = Math.max(0, Math.ceil((mn - L0) / STEP)), l1 = Math.min(LEVELS - 1, Math.floor((mx - L0) / STEP));
+      for (let l = l0; l <= l1; l++) {
+        const iso = L0 + l * STEP;
+        const idx = (a > iso) | ((b > iso) << 1) | ((c > iso) << 2) | ((d > iso) << 3);
+        if (idx === 0 || idx === 15) continue;
+        const x0 = i * CELL, y0 = j * CELL, path = l % MAJOR_EVERY === 0 ? major : minor;
+        const tx = x0 + CELL * (iso - a) / (b - a), rY = y0 + CELL * (iso - b) / (c - b);
+        const bx = x0 + CELL * (iso - d) / (c - d), lY = y0 + CELL * (iso - a) / (d - a);
+        const seg = (px1, py1, px2, py2) => { path.moveTo(px1, py1); path.lineTo(px2, py2); };
+        switch (idx) {
+          case 1: case 14: seg(x0, lY, tx, y0); break;
+          case 2: case 13: seg(tx, y0, x0 + CELL, rY); break;
+          case 3: case 12: seg(x0, lY, x0 + CELL, rY); break;
+          case 4: case 11: seg(x0 + CELL, rY, bx, y0 + CELL); break;
+          case 6: case 9: seg(tx, y0, bx, y0 + CELL); break;
+          case 7: case 8: seg(x0, lY, bx, y0 + CELL); break;
+          case 5: seg(x0, lY, tx, y0); seg(x0 + CELL, rY, bx, y0 + CELL); break;
+          case 10: seg(tx, y0, x0 + CELL, rY); seg(x0, lY, bx, y0 + CELL); break;
+        }
+      }
+    }
+    ctx.lineJoin = ctx.lineCap = "round";
+    ctx.lineWidth = 1.1; ctx.strokeStyle = MINOR; ctx.stroke(minor);
+    ctx.lineWidth = 1.375; ctx.strokeStyle = MAJOR; ctx.stroke(major);
+  }
+
+  // Cuộn: chữ bay lên + giãn, cả khối tan dần vào ảnh bên dưới
+  let sp = 0;
+  const ease = v => v * v * (3 - 2 * v);
+  function applyScroll() {
+    const r = wrap.getBoundingClientRect();
+    sp = Math.min(1, Math.max(0, -r.top / (wrap.offsetHeight - innerHeight)));
+    const up = ease(Math.min(1, sp / 0.75));
+    // chữ tên: tan thành hạt 3D (js/name-particles.js)
+    if (window.__nameFx) window.__nameFx(sp);
+    root.style.opacity = 1 - ease(Math.min(1, Math.max(0, (sp - 0.55) / 0.45)));
+    root.style.pointerEvents = sp > 0.9 ? "none" : "";
+    root.classList.toggle("gone", sp > 0.9);
+  }
+  addEventListener("scroll", applyScroll, { passive: true });
+  addEventListener("resize", applyScroll);
+  applyScroll();
+
+  // "XUAN VINH" giãn chữ cho bằng đúng bề ngang "NGUYEN"
+  function fitName() {
+    const w1 = word.querySelector(".w1"), w2 = word.querySelector(".w2");
+    if (!w1 || !w2) return;
+    w2.style.letterSpacing = "0px"; w2.style.paddingLeft = "0px";
+    const target = w1.getBoundingClientRect().width - 2 * parseFloat(getComputedStyle(w1).letterSpacing);
+    const n = w2.textContent.length - 1;
+    const ls = Math.max(0, (target - w2.getBoundingClientRect().width) / n);
+    w2.style.letterSpacing = ls + "px"; w2.style.paddingLeft = ls + "px";
+  }
+  fitName(); addEventListener("resize", fitName);
+  document.fonts && document.fonts.ready.then(fitName);
+
+  // Vẽ mỗi khung hình (60fps); bỏ qua khi contour bị che hết (ảnh fly-through phủ kín, gallery đang mở)
+  function covered() {
+    if (document.querySelector(".gallery.open")) return true;
+    const fr = fly.getBoundingClientRect();
+    return sp >= 1 && fr.top <= 0 && fr.bottom >= innerHeight;
+  }
+  function frame(t) {
+    mouse.sx += (mouse.x - mouse.sx) * 0.1;
+    mouse.sy += (mouse.y - mouse.sy) * 0.1;
+    mouse.k += ((mouse.on ? 1 : 0) - mouse.k) * 0.05;
+    if (!covered()) {
+      draw(t);
+      if (sp < 1) { hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.clearRect(0, 0, heroCv.width, heroCv.height); hctx.drawImage(cv, 0, 0); }
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+<script>
+// ===== Admin edit mode =====
+// Mở: thêm ?edit vào cuối đường dẫn, hoặc bấm Ctrl+Shift+E. Cần mật khẩu admin.
+// Sửa chữ: bấm thẳng vào chữ. Ảnh: rê chuột lên ảnh -> "thay ảnh" / "xóa"; ô "+ thêm ảnh" ở cuối Masterplans và gallery.
+// Đổi mật khẩu: mở Console, chạy  await adminHash("mat-khau-moi")  rồi dán chuỗi kết quả vào ADMIN_HASH.
+// Lưu: ghi thẳng vào index.html + img/uploads (cần Chrome hoặc Edge). Bản cũ được sao lưu tự động.
+(() => {
+  const ADMIN_HASH = "b1170e535fd85d544448ca579a5ace59e5df355ee082324055105473ac839f14";
+  const TEXT_SEL = [
+    ".nav .mark", ".nav .links a", ".orbit .word", ".orbit .meta",
+    ".hero-title span", ".hero-meta", ".hint", ".caption .num", ".caption .txt",
+    ".ticker > div", ".statement .label", ".statement p", ".sign",
+    ".sec-head h2", ".sec-head .label", ".works-intro p", ".works-intro .count", ".work figcaption > *", ".type-row div",
+    ".card .label", ".card h3", ".card .go", ".strip figcaption", ".gallery .g-head h3", ".gallery figcaption",
+    ".mp-name", ".mp-more .go", ".clients-head .label",
+    ".footer > .label", ".footer h2 span", ".footer .row > *"
+  ].join(",");
+  const IMG_SEL = "img:not(.shape img):not(.clone img)";
+  const TRACK_SEL = ".strip, .gallery .g-track";   // nơi được thêm / xóa ảnh
+
+  const sha = async s => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, "0")).join("");
+  window.adminHash = sha;
+
+  let on = false, dirty = false, texts = [], imgs = [], tracks = [], statusEl, hl, tools, cur = null;
+  const replaced = new Map();   // chỉ số ảnh gốc -> File
+  const removed = new Set();    // chỉ số ảnh gốc đã xóa
+  const added = [];             // { fig, ti, file }
+  const setStatus = s => statusEl && (statusEl.textContent = s);
+  const markDirty = () => { dirty = true; setStatus("chưa lưu"); };
+
+  async function login() {
+    if (on) return;
+    const pw = prompt("Mật khẩu admin:");
+    if (pw == null) return;
+    if (await sha(pw) !== ADMIN_HASH) { alert("Sai mật khẩu."); return; }
+    enable();
+  }
+
+  // Chụp lại trạng thái hiện tại làm mốc (lúc vào admin và sau mỗi lần lưu)
+  function baseline() {
+    texts = [...document.querySelectorAll(TEXT_SEL)];
+    texts.forEach(el => {
+      if (el.dataset.ed != null) return;
+      el.setAttribute("contenteditable", "true"); el.dataset.ed = ""; el.addEventListener("input", markDirty);
+    });
+    imgs = [...document.querySelectorAll(IMG_SEL)];
+    imgs.forEach((im, i) => { im.dataset.k = i; delete im.dataset.added; });
+    tracks = [...document.querySelectorAll(TRACK_SEL)];
+    replaced.clear(); removed.clear(); added.length = 0;
+  }
+
+  function enable() {
+    on = true;
+    document.body.classList.add("admin");
+    document.addEventListener("click", blockLinks, true);
+    baseline();
+
+    const bar = document.createElement("div");
+    bar.className = "admin-bar";
+    bar.innerHTML = '<span class="dot"></span><span class="status">rê chuột lên ảnh để thay / xóa</span><button class="primary" data-a="save">Lưu</button><button data-a="exit">Thoát</button>';
+    statusEl = bar.querySelector(".status");
+    bar.addEventListener("click", e => { const a = e.target.dataset.a; if (a === "save") save(); if (a === "exit") exit(); });
+    document.body.appendChild(bar);
+
+    hl = document.createElement("div"); hl.className = "adm-hl";
+    tools = document.createElement("div"); tools.className = "adm-tools";
+    tools.innerHTML = '<button data-t="rep">⟳ thay ảnh</button><button class="del" data-t="del">✕ xóa</button>';
+    tools.addEventListener("click", e => { const t = e.target.dataset.t; if (t === "rep") replaceCur(); if (t === "del") removeCur(); });
+    document.body.append(hl, tools);
+
+    tracks.forEach(addTile);
+    addEventListener("pointermove", hover, { passive: true });
+    addEventListener("scroll", () => cur && place(cur), { passive: true });
+    document.querySelectorAll(".g-track").forEach(t => t.addEventListener("scroll", () => cur && place(cur), { passive: true }));
+  }
+
+  function blockLinks(e) { if (on && e.target.closest("a") && !e.target.closest(".admin-bar,.adm-tools")) e.preventDefault(); }
+
+  // Ô "+ thêm ảnh" (chỉ có trên trang lúc sửa, không bị lưu vào file)
+  function addTile(track) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "adm-add"; b.textContent = "+ thêm ảnh";
+    b.onclick = () => pickFiles(true, files => files.forEach(f => {
+      const fig = document.createElement("figure");
+      fig.innerHTML = '<img alt=""><figcaption contenteditable="true" data-ed></figcaption>';
+      fig.querySelector("img").src = URL.createObjectURL(f);
+      fig.querySelector("img").dataset.added = "";
+      fig.querySelector("figcaption").textContent = f.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
+      fig.querySelector("figcaption").addEventListener("input", markDirty);
+      track.insertBefore(fig, b);
+      added.push({ fig, ti: tracks.indexOf(track), file: f });
+      markDirty();
+    }));
+    track.appendChild(b);
+  }
+
+  function pickFiles(multi, cb) {
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*"; inp.multiple = multi;
+    inp.onchange = () => inp.files.length && cb([...inp.files]);
+    inp.click();
+  }
+
+  // Tìm ảnh đang thấy dưới con trỏ (bỏ qua ảnh đang mờ/ẩn, ví dụ các cảnh fly-through chồng nhau)
+  function shown(img) {
+    for (let el = img; el && el !== document.body; el = el.parentElement) {
+      const cs = getComputedStyle(el);
+      if (cs.visibility === "hidden" || cs.display === "none" || parseFloat(cs.opacity) < 0.4) return false;
+    }
+    return true;
+  }
+  const frameOf = img => img.closest("figure, .scene, .card") || img;
+  function hover(e) {
+    if (e.target.closest && e.target.closest(".adm-tools, .admin-bar")) return;
+    // ảnh trong strip/gallery có pointer-events:none nên dò qua khung chứa nó
+    const img = document.elementsFromPoint(e.clientX, e.clientY)
+      .map(el => el.tagName === "IMG" ? el : el.matches("figure, .scene, .card, .ph") ? el.querySelector("img") : null)
+      .find(el => el && (el.dataset.k != null || el.dataset.added != null) && shown(el));
+    if (img === cur) return;
+    cur = img || null;
+    if (!cur) { hl.style.display = tools.style.display = "none"; return; }
+    tools.querySelector(".del").style.display = cur.closest(TRACK_SEL) ? "" : "none";
+    place(cur);
+  }
+  function place(img) {
+    const r = frameOf(img).getBoundingClientRect();
+    const top = Math.max(r.top, 0), bottom = Math.min(r.bottom, innerHeight);
+    if (bottom - top < 40) { hl.style.display = tools.style.display = "none"; return; }
+    Object.assign(hl.style, { display: "block", left: r.left + "px", top: top + "px", width: r.width + "px", height: bottom - top + "px" });
+    Object.assign(tools.style, { display: "flex", left: Math.max(8, r.right - 210) + "px", top: top + 10 + "px" });
+  }
+
+  function replaceCur() {
+    const img = cur; if (!img) return;
+    pickFiles(false, ([f]) => {
+      img.src = URL.createObjectURL(f);
+      if (img.dataset.added != null) { added.find(a => a.fig.contains(img)).file = f; }
+      else replaced.set(+img.dataset.k, f);
+      markDirty();
+    });
+  }
+  function removeCur() {
+    const img = cur; if (!img || !img.closest(TRACK_SEL)) return;
+    const fig = img.closest("figure");
+    if (img.dataset.added != null) added.splice(added.findIndex(a => a.fig === fig), 1);
+    else { removed.add(+img.dataset.k); replaced.delete(+img.dataset.k); }
+    cur = null; hl.style.display = tools.style.display = "none";
+    fig.classList.add("adm-gone");
+    setTimeout(() => fig.remove(), 350);
+    markDirty();
+  }
+
+  // Ghi file mới, không đè file đã có (thêm hậu tố nếu trùng tên)
+  async function writeImage(dir, file) {
+    const dot = file.name.lastIndexOf(".");
+    const base = (dot > 0 ? file.name.slice(0, dot) : file.name).replace(/[\\/:*?"<>|]/g, "_");
+    const ext = dot > 0 ? file.name.slice(dot) : ".jpg";
+    let name = base + ext, n = 1;
+    while (true) { try { await dir.getFileHandle(name); name = `${base}-${++n}${ext}`; } catch { break; } }
+    const h = await dir.getFileHandle(name, { create: true });
+    const w = await h.createWritable(); await w.write(file); await w.close();
+    return name;
+  }
+  async function writeText(dir, name, text) {
+    const h = await dir.getFileHandle(name, { create: true });
+    const w = await h.createWritable(); await w.write(text); await w.close();
+  }
+
+  let rootDir = null;
+  async function save() {
+    if (!window.showDirectoryPicker) { alert("Lưu trực tiếp cần Chrome hoặc Edge."); return; }
+    try {
+      const fileName = decodeURIComponent(location.pathname.split("/").pop()) || "index.html";
+      // Chọn đúng thư mục chứa trang (D:\Ai\Vinhportfolio); chọn nhầm thì hỏi lại, không mất phần đã sửa
+      let fh = null;
+      while (!fh) {
+        if (!rootDir) {
+          alert(`Chọn thư mục Vinhportfolio (thư mục chứa ${fileName}) để lưu.`);
+          rootDir = await showDirectoryPicker({ mode: "readwrite", id: "vinhportfolio" });
+        }
+        try { fh = await rootDir.getFileHandle(fileName); }
+        catch {
+          rootDir = null;
+          if (!confirm(`Thư mục vừa chọn không có ${fileName}.\nChọn lại thư mục Vinhportfolio?`)) { setStatus("chưa lưu"); return; }
+        }
+      }
+      setStatus("đang lưu…");
+      const original = await (await fh.getFile()).text();
+      const doc = new DOMParser().parseFromString(original, "text/html");
+      const dTexts = [...doc.querySelectorAll(TEXT_SEL)];
+      const dImgs = [...doc.querySelectorAll(IMG_SEL)];
+      const dTracks = [...doc.querySelectorAll(TRACK_SEL)];
+      if (dTexts.length !== texts.length || dImgs.length !== imgs.length)
+        throw new Error("File trên ổ đĩa khác với trang đang mở. Tải lại trang rồi sửa lại.");
+
+      // 1. chữ
+      texts.forEach((el, i) => { dTexts[i].innerHTML = el.innerHTML; });
+      // 2. ảnh thay thế -> img/uploads/
+      const up = await (await rootDir.getDirectoryHandle("img", { create: true })).getDirectoryHandle("uploads", { create: true });
+      for (const [k, f] of replaced) dImgs[k].setAttribute("src", "img/uploads/" + encodeURIComponent(await writeImage(up, f)));
+      // 3. ảnh đã xóa
+      removed.forEach(k => { const fig = dImgs[k].closest("figure"); (fig || dImgs[k]).remove(); });
+      // 4. ảnh thêm mới (đúng thứ tự trên trang)
+      for (const a of added) {
+        const nm = await writeImage(up, a.file);
+        const fig = doc.createElement("figure");
+        fig.innerHTML = `<img loading="lazy" src="img/uploads/${encodeURIComponent(nm)}" alt=""><figcaption></figcaption>`;
+        fig.querySelector("figcaption").textContent = a.fig.querySelector("figcaption").textContent.trim();
+        dTracks[a.ti].append("  ", fig, "\n  ");
+      }
+      // số ảnh hiển thị ở gallery
+      doc.querySelectorAll(".gallery").forEach(g => {
+        const c = g.querySelector(".g-count"); if (c) c.textContent = "01 / " + String(g.querySelectorAll(".g-track figure").length).padStart(2, "0");
+      });
+
+      const html = "<!doctype html>\n" + doc.documentElement.outerHTML;
+      const stamp = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, "");
+      await writeText(rootDir, `index.backup-${stamp}.html`, original);
+      await writeText(rootDir, fileName, html);
+      dirty = false;
+      baseline();   // trạng thái vừa lưu thành mốc mới để có thể sửa tiếp
+      setStatus("đã lưu ✓");
+    } catch (err) {
+      if (err.name === "AbortError") { setStatus("đã hủy"); return; }
+      console.error(err); setStatus("lỗi khi lưu"); alert("Không lưu được: " + err.message);
+    }
+  }
+
+  function exit() {
+    if (dirty && !confirm("Còn thay đổi chưa lưu. Vẫn thoát?")) return;
+    dirty = false;
+    location.href = location.pathname;   // tải lại bản sạch
+  }
+
+  addEventListener("keydown", e => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "e") { e.preventDefault(); login(); }
+    if (on && e.ctrlKey && e.key.toLowerCase() === "s") { e.preventDefault(); save(); }
+  });
+  addEventListener("beforeunload", e => { if (on && dirty) { e.preventDefault(); e.returnValue = ""; } });
+  if (new URLSearchParams(location.search).has("edit")) addEventListener("load", login);
+})();
+</script>
+
+<script>
+// ===== Scroll motion + kéo ngang + gallery =====
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Hiện dần khi vào màn hình (ảnh mở từ dưới lên, chữ trượt lên)
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.18 });
+  document.querySelectorAll(".work, .card").forEach(el => io.observe(el));
+
+  // Parallax ảnh trong khung + dải chữ chạy theo cuộn
+  const par = [...document.querySelectorAll(".work .ph img, .card img")];
+  const marq = [...document.querySelectorAll("[data-marq]")];
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const vh = innerHeight;
+      par.forEach(img => {
+        const r = img.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        const k = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);   // -1..1
+        img.style.setProperty("--py", (k * r.height * 0.08).toFixed(1) + "px");
+      });
+      marq.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        el.style.setProperty("--tx", ((r.top - vh) * 0.35 * Number(el.dataset.marq)).toFixed(1) + "px");
+      });
+    });
+  }
+  if (!reduce) { addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); onScroll(); }
+
+  // Kéo bằng chuột để cuộn ngang (masterplans + gallery), có quán tính nhẹ
+  function dragScroll(el) {
+    let down = false, sx = 0, sl = 0, v = 0, lx = 0, moved = 0;
+    el.addEventListener("pointerdown", e => {
+      if (e.pointerType !== "mouse" || document.body.classList.contains("admin")) return;
+      down = true; moved = 0; sx = lx = e.clientX; sl = el.scrollLeft; v = 0; el.classList.add("dragging");
+    });
+    addEventListener("pointermove", e => {
+      if (!down) return;
+      v = e.clientX - lx; lx = e.clientX; moved += Math.abs(v);
+      el.scrollLeft = sl - (e.clientX - sx);
+    });
+    addEventListener("pointerup", () => {
+      if (!down) return; down = false; el.classList.remove("dragging");
+      const glide = () => { if (Math.abs(v) < 0.5) return; el.scrollLeft -= v; v *= 0.92; requestAnimationFrame(glide); };
+      requestAnimationFrame(glide);
+    });
+    el.addEventListener("click", e => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
+  }
+  document.querySelectorAll(".strip, .g-track").forEach(dragScroll);
+
+  // Gallery: lăn chuột dọc -> trượt ngang mượt, phím ← → để chuyển ảnh, Esc để đóng
+  let openG = null;
+  document.querySelectorAll(".gallery").forEach(g => {
+    const track = g.querySelector(".g-track"), bar = g.querySelector(".g-bar b"), cnt = g.querySelector(".g-count");
+    const figs = [...track.children];
+    figs.forEach((f, i) => f.style.setProperty("--i", Math.min(i, 8)));
+    let target = 0, anim = false;
+    const glideTo = () => {
+      const d = target - track.scrollLeft;
+      if (Math.abs(d) < 0.5) { anim = false; return; }
+      track.scrollLeft += d * 0.12; requestAnimationFrame(glideTo);
+    };
+    track.addEventListener("wheel", e => {
+      e.preventDefault();
+      if (!anim) target = track.scrollLeft;
+      target = Math.max(0, Math.min(track.scrollWidth - track.clientWidth, target + e.deltaY + e.deltaX));
+      if (!anim) { anim = true; requestAnimationFrame(glideTo); }
+    }, { passive: false });
+    track.addEventListener("scroll", () => {
+      const max = track.scrollWidth - track.clientWidth || 1;
+      bar.style.transform = `scaleX(${track.scrollLeft / max})`;
+      const mid = track.scrollLeft + track.clientWidth / 3;
+      const idx = Math.max(0, figs.findIndex(f => f.offsetLeft + f.offsetWidth > mid));
+      cnt.textContent = String(idx + 1).padStart(2, "0") + " / " + String(figs.length).padStart(2, "0");
+    }, { passive: true });
+    g.step = dir => {
+      const cur = figs.findIndex(f => f.offsetLeft + f.offsetWidth / 2 > track.scrollLeft + 40);
+      const next = figs[Math.max(0, Math.min(figs.length - 1, cur + dir))];
+      target = next.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft);
+      if (!anim) { anim = true; requestAnimationFrame(glideTo); }
+    };
+    g.querySelector(".g-close").addEventListener("click", () => closeG());
+  });
+  function openGallery(id) {
+    const g = document.getElementById(id); if (!g) return;
+    openG = g; g.classList.add("open"); g.setAttribute("aria-hidden", "false");
+    g.querySelector(".g-track").scrollLeft = 0;
+    window.__lenis && window.__lenis.stop(); document.documentElement.style.overflow = "hidden";
+  }
+  function closeG() {
+    if (!openG) return;
+    openG.classList.remove("open"); openG.setAttribute("aria-hidden", "true"); openG = null;
+    window.__lenis && window.__lenis.start(); document.documentElement.style.overflow = "";
+  }
+  document.querySelectorAll("[data-gallery]").forEach(a => a.addEventListener("click", e => {
+    e.preventDefault();
+    // admin: bấm chữ trên thẻ để sửa; bấm nút "view gallery" mới mở gallery
+    if (document.body.classList.contains("admin") && !e.target.closest(".go")) return;
+    openGallery(a.dataset.gallery);
+  }));
+  addEventListener("keydown", e => {
+    if (!openG) return;
+    if (e.key === "Escape") closeG();
+    if (e.key === "ArrowRight") openG.step(1);
+    if (e.key === "ArrowLeft") openG.step(-1);
+  });
+})();
+</script>
+
+<script>
+  // Logo khách hàng: nhân đôi dãy để vòng chạy liền mạch (bản sao không được admin sửa/lưu)
+  document.querySelectorAll(".logo-track").forEach(t => {
+    [...t.children].forEach(el => { const c = el.cloneNode(true); c.classList.add("clone"); c.setAttribute("aria-hidden", "true"); t.appendChild(c); });
+  });
+</script>
+
+<!-- Lenis: cuộn mượt toàn trang -->
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+  if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const lenis = window.__lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]:not([data-gallery])').forEach(a => a.addEventListener("click", e => {
+      const id = a.getAttribute("href");
+      if (id.length > 1 && document.querySelector(id)) { e.preventDefault(); lenis.scrollTo(id); }
+    }));
+  }
+</script>
+
+
+<script src="js/name-particles.js"></script>
+<script type="module" src="js/fly-gl.js"></script>
+<script type="module" src="js/scroll-gl.js"></script>
+</body></html>

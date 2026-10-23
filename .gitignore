@@ -1,0 +1,10 @@
+# Bản dựng để deploy (tạo lại bằng deploy)
+site/
+# Ảnh gốc / tư liệu, không cần trên web
+_pdf/
+client/
+imgs/
+3ds-max-logo-png_seeklogo-482396.png
+# Bản sao lưu do trang edit tạo ra
+index.backup-*.html
+.wrangler/
