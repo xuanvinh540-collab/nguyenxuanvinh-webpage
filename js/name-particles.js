@@ -10,11 +10,12 @@
   if (!word || !orbit) return;
 
   const STRETCH_END = 0.12;     // giãn dọc trong 12% đầu đoạn cuộn
-  const STRETCH = 0.8;          // cao thêm 80%
-  const BREAK_END = 0.78;       // hết hiệu ứng hạt ở 78% đoạn cuộn
-  const BG_FADE = [0.62, 0.76]; // nền xanh mờ đi khi hạt đã ghép xong ảnh
-  const CELLS = 70;             // số mảnh Voronoi
-  const LAYERS = 10;            // số lớp hạt theo chiều sâu: nhiều lớp = khối đặc hơn, nhiều hạt hơn
+  const STRETCH = 0.35;         // cao thêm 35%
+  const BREAK_END = 0.9;        // hết hiệu ứng hạt ở 90% đoạn cuộn
+  const BG_FADE = [0.8, 0.92];  // nền xanh mờ đi khi hạt đã ghép xong ảnh (chậm, không bị nhảy)
+  const CELLS = 160;            // số mảnh Voronoi (nhiều = mảnh nhỏ)
+  const SHARP = 0.16;           // mảnh dài và nhọn: càng nhỏ càng nhọn (1 = mảnh tròn đều)
+  const LAYERS = 8;            // số lớp hạt theo chiều sâu: nhiều lớp = khối đặc hơn, nhiều hạt hơn
   const THICK = 0.34;           // độ dày khối = 34% cỡ chữ
   const SPIN = 0.7;             // cả khối xoay quanh trục dọc khi vỡ (radian)
   const FOCAL = 900;
@@ -105,11 +106,12 @@
         x, y: oy + (y - oy) * (1 + STRETCH),
         vx: Math.cos(a) * Math.sqrt(1 - b * b) * sp, vy: (Math.sin(a) * Math.sqrt(1 - b * b) - 0.35) * sp, vz: b * sp,
         rot: (rnd(i, 16) - .5) * 2.4,
+        ux: Math.cos(rnd(i, 18) * Math.PI), uy: Math.sin(rnd(i, 18) * Math.PI),   // hướng thớ của mảnh nhọn
         d: clamp(((x - bx) / bw) * 0.08 + rnd(i, 17) * 0.05),
       };
     });
 
-    const layers = W < 760 ? 5 : LAYERS;
+    const layers = W < 760 ? 4 : LAYERS;
     const step = 2;
     const data = o.getImageData(0, 0, W, H).data;
     const samples = [];
@@ -134,7 +136,8 @@
       const sy = oy + (y - oy) * (1 + STRETCH);
       let ci = 0, best = Infinity;
       for (let c = 0; c < cells.length; c++) {
-        const dx = cells[c].x - x, dy = cells[c].y - sy, dd = dx * dx + dy * dy;
+        const C = cells[c], dx = C.x - x, dy = C.y - sy;
+        const a = dx * C.ux + dy * C.uy, b = dy * C.ux - dx * C.uy, dd = a * a * SHARP + b * b;   // Voronoi kéo dài -> mảnh nhọn
         if (dd < best) { best = dd; ci = c; }
       }
       for (let L = 0; L < layers; L++, n++) {
@@ -158,6 +161,9 @@
     draw(lastSp);
   }
 
+  // trạng thái từng mảnh, tính 1 lần mỗi khung hình (đỡ tính lượng giác cho từng hạt)
+  let cShard, cCos, cSin, cVX, cVY, cVZ, cX, cY, cD;
+
   function draw(sp) {
     lastSp = sp;
     setBg(sp);
@@ -171,27 +177,37 @@
       return;
     }
     word.style.opacity = "0";
+    const M = cells.length;
+    if (!cShard || cShard.length !== M) {
+      cShard = new Float32Array(M); cCos = new Float32Array(M); cSin = new Float32Array(M);
+      cVX = new Float32Array(M); cVY = new Float32Array(M); cVZ = new Float32Array(M);
+      cX = new Float32Array(M); cY = new Float32Array(M); cD = new Float32Array(M);
+    }
+    for (let c = 0; c < M; c++) {
+      const C = cells[c], sh = ease(clamp((t - C.d) / 0.1));      // mảnh tách ra (nhanh)
+      cShard[c] = sh; cCos[c] = Math.cos(C.rot * sh); cSin[c] = Math.sin(C.rot * sh);
+      cVX[c] = C.vx; cVY[c] = C.vy; cVZ[c] = C.vz; cX[c] = C.x; cY[c] = C.y; cD[c] = C.d;
+    }
     img32.fill(0);
     const cx = W / 2, cy = oy * 0.75;
-    const ext = ease(clamp(t / 0.12));                  // khối nổi chiều sâu
-    const rise = ease(clamp(t / 0.4)) * 0.2 * H;
+    const ext = ease(clamp(t / 0.1));                    // khối nổi chiều sâu
+    const rise = ease(clamp(t / 0.35)) * 0.2 * H;
+    const ang = SPIN * ease(clamp(t / 0.5)), ca = Math.cos(ang), sa = Math.sin(ang);
     const fadeOut = clamp((sp - BG_FADE[0]) / (BG_FADE[1] - BG_FADE[0]));   // hạt thưa dần khi ảnh thật hiện
+    const big = gridCell * 1.15 - 2;
     for (let i = 0; i < N; i++) {
-      if (J[i] < fadeOut) continue;
-      const c = cells[CI[i]];
-      const shard = ease(clamp((t - c.d) / 0.12));                        // mảnh tách ra (nhanh)
-      const dust = ease(clamp((t - 0.05 - c.d - J[i] * 0.08) / 0.32));    // vỡ thành bụi
-      const conv = ease(clamp((t - 0.42 - J[i] * 0.14) / 0.36));          // bay về ghép thành ảnh
-      // mảnh xoay quanh tâm của nó
-      const r = c.rot * shard * (1 - dust * 0.5), cr = Math.cos(r), sr = Math.sin(r);
-      const lx = PX[i] - c.x, ly = PY[i] - c.y;
-      let x = c.x + lx * cr - ly * sr + c.vx * shard * 70;
-      let y = c.y + lx * sr + ly * cr + c.vy * shard * 50 - rise;
-      let z = PZ[i] * ext + c.vz * shard * 120;
+      const j = J[i];
+      if (j < fadeOut) continue;
+      const c = CI[i], shard = cShard[c];
+      let v = (t - 0.04 - cD[c] - j * 0.08) / 0.3; v = v < 0 ? 0 : v > 1 ? 1 : v;
+      const dust = v * v * (3 - 2 * v);                                       // vỡ thành bụi
+      v = (t - 0.34 - j * 0.24) / 0.4; v = v < 0 ? 0 : v > 1 ? 1 : v;
+      const conv = v * v * (3 - 2 * v);                                       // bay về ghép thành ảnh (rải đều theo thời gian)
+      const lx = PX[i] - cX[c], ly = PY[i] - cY[c], cr = cCos[c], sr = cSin[c];
       const d2 = dust * dust;
-      x += (DX[i] * 300 + c.vx * 200) * d2; y += (DY[i] * 230 + c.vy * 150) * d2; z += DZ[i] * 620 * d2;
-      // cả khối xoay quanh trục dọc (giảm dần khi ghép ảnh)
-      const ang = SPIN * ease(t) * (1 - conv), ca = Math.cos(ang), sa = Math.sin(ang);
+      const x = cX[c] + lx * cr - ly * sr + cVX[c] * (shard * 160 + 220 * d2) + DX[i] * 300 * d2;
+      const y = cY[c] + lx * sr + ly * cr + cVY[c] * (shard * 110 + 170 * d2) + DY[i] * 230 * d2 - rise;
+      const z = PZ[i] * ext + cVZ[c] * shard * 260 + DZ[i] * 620 * d2;
       const rx = (x - cx) * ca - z * sa, rz = ((x - cx) * sa + z * ca) * (1 - conv);
       const k = FOCAL / (FOCAL - rz);
       if (k <= 0) continue;
@@ -199,24 +215,30 @@
       sx += (TX[i] - sx) * conv; sy2 += (TY[i] - sy2) * conv;
       const ix = sx | 0, iy = sy2 | 0;
       if (ix < 0 || iy < 0 || ix >= W - 6 || iy >= H - 6) continue;
-      // màu: từ màu chữ chuyển dần sang màu ảnh
       let col = CA[i];
-      if (conv > 0) {
+      if (conv > 0) {                                  // màu chữ chuyển dần sang màu ảnh
         const a = CA[i], b = CB[i];
-        const R = (a & 255) + (((b & 255) - (a & 255)) * conv) | 0;
-        const G = ((a >> 8) & 255) + ((((b >> 8) & 255) - ((a >> 8) & 255)) * conv) | 0;
-        const B = ((a >> 16) & 255) + ((((b >> 16) & 255) - ((a >> 16) & 255)) * conv) | 0;
-        col = pack(R, G, B);
+        col = pack(
+          (a & 255) + (((b & 255) - (a & 255)) * conv) | 0,
+          ((a >> 8) & 255) + ((((b >> 8) & 255) - ((a >> 8) & 255)) * conv) | 0,
+          ((a >> 16) & 255) + ((((b >> 16) & 255) - ((a >> 16) & 255)) * conv) | 0);
       }
-      // khi ghép ảnh, mỗi hạt phình ra lấp ô lưới của nó -> ảnh kín như mosaic
-      const size = Math.min(6, Math.round((k > 1.3 ? 3 : 2) + (gridCell * 1.15 - 2) * conv * conv));
+      // khi ghép ảnh, hạt phình ra lấp ô lưới của nó -> ảnh kín như mosaic
+      const size = Math.min(6, Math.round((k > 1.3 ? 3 : 2) + big * conv * conv));
       let o = iy * W + ix;
       for (let yy = 0; yy < size; yy++, o += W) for (let xx = 0; xx < size; xx++) img32[o + xx] = col;
     }
     ctx.putImageData(imgData, 0, 0);
   }
 
-  window.__nameFx = draw;
+  // gom nhiều sự kiện cuộn trong 1 khung hình thành 1 lần vẽ
+  let pending = 0, rafId = 0;
+  const schedule = sp => {
+    pending = sp;
+    if (!rafId) rafId = requestAnimationFrame(() => { rafId = 0; draw(pending); });
+  };
+
+  window.__nameFx = schedule;
   const rebuild = () => setTimeout(build, 120);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(rebuild);
   addEventListener("resize", rebuild);

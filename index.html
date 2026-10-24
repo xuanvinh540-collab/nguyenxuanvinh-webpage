@@ -64,8 +64,8 @@
   .statement p { font-size: clamp(24px, 3.2vw, 46px); line-height: 1.15; letter-spacing: -.015em; font-weight: 500; }
   .statement p span { color: var(--coffee); }
   /* ảnh chân dung nhỏ cạnh câu giới thiệu */
-  .about-me { display: inline-grid; align-self: start; gap: 10px; }
-  .about-me img { width: clamp(150px, 15vw, 220px); aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
+  .about-me { display: inline-grid; justify-self: end; align-self: start; gap: 10px; }   /* sát câu giới thiệu; cao bằng đoạn giới thiệu (JS bên dưới) */
+  .about-me img { height: var(--intro-h, 300px); width: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
   .sign { margin-top: 32px; font-family: var(--display); font-size: 28px; color: var(--ink); }
   .sign::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 12px; background: var(--accent); vertical-align: middle; }
 
@@ -182,6 +182,7 @@
     .hero-meta, .hint { display: none; }
     .orbit .meta-r { display: none; }
     .statement { grid-template-columns: 1fr; }
+    .about-me { justify-self: start; }
     .works > * { grid-column: 1 / -1 !important; margin-top: 0 !important; --h: 68vw !important; }
     .works-intro { grid-template-columns: 1fr; }
     .w-c::before { display: none; }
@@ -608,7 +609,7 @@
     const up = ease(Math.min(1, sp / 0.75));
     // chữ tên: tan thành hạt 3D (js/name-particles.js)
     if (window.__nameFx) window.__nameFx(sp);
-    root.style.opacity = 1 - ease(Math.min(1, Math.max(0, (sp - 0.55) / 0.45)));
+    root.style.opacity = 1 - ease(Math.min(1, Math.max(0, (sp - 0.9) / 0.1)));   // giữ đến khi hạt ghép xong ảnh
     root.style.pointerEvents = sp > 0.9 ? "none" : "";
     root.classList.toggle("gone", sp > 0.9);
   }
@@ -1029,7 +1030,16 @@
 </script>
 
 
-<script src="js/name-particles.js?v=8"></script>
+<script src="js/name-particles.js?v=11"></script>
 <script type="module" src="js/fly-gl.js?v=4"></script>
 <script type="module" src="js/hover-gl.js?v=4"></script>
+<script>
+  // Ảnh chân dung cao đúng bằng đoạn giới thiệu, mép trên và mép dưới thẳng hàng với chữ
+  (() => {
+    const p = document.querySelector(".statement p"), box = document.querySelector(".about-me");
+    if (!p || !box) return;
+    const fit = () => box.style.setProperty("--intro-h", p.getBoundingClientRect().height + "px");
+    fit(); addEventListener("resize", fit); document.fonts && document.fonts.ready.then(fit);
+  })();
+</script>
 </body></html>
