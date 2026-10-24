@@ -425,7 +425,7 @@
   <div class="sec-head"><h2 class="display">Master<br>plans</h2><span class="label">04 images · click to view</span></div>
   <div class="mp-show">
     <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/pdf/p03_1.jpg" alt=""><span class="label">01 — masterplan</span><h3 class="mp-name">Luong Hoa</h3></a>
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.png" alt=""><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.jpg" alt=""><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
     <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/ANTI%20TCI.jpg" alt=""><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
     <a class="mp-more" href="#gal-mp" data-gallery="gal-mp"><span class="mp-count">04</span><span class="go">view all →</span></a>
   </div>
@@ -805,7 +805,28 @@
   }
 
   // Ghi file mới, không đè file đã có (thêm hậu tố nếu trùng tên)
+  // Nén ảnh trước khi lưu: cạnh dài tối đa 2000px, JPG 85%. Ảnh gốc trên máy không bị đụng tới.
+  const MAX_SIDE = 2000, QUALITY = 0.85;
+  async function compressImage(file) {
+    if (!/^image\/(jpeg|png|webp|bmp)$/.test(file.type)) return file;   // GIF, SVG giữ nguyên
+    try {
+      const bmp = await createImageBitmap(file);
+      const k = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
+      if (k === 1 && file.size < 700 * 1024) { bmp.close(); return file; }   // đã nhỏ sẵn
+      const c = document.createElement("canvas");
+      c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      const g = c.getContext("2d");
+      g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);   // nền trắng cho PNG trong suốt
+      g.drawImage(bmp, 0, 0, c.width, c.height);
+      bmp.close();
+      const blob = await new Promise(res => c.toBlob(res, "image/jpeg", QUALITY));
+      if (!blob || blob.size >= file.size) return file;
+      return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
+    } catch { return file; }
+  }
+
   async function writeImage(dir, file) {
+    file = await compressImage(file);
     const dot = file.name.lastIndexOf(".");
     const base = (dot > 0 ? file.name.slice(0, dot) : file.name).replace(/[\\/:*?"<>|]/g, "_");
     const ext = dot > 0 ? file.name.slice(dot) : ".jpg";

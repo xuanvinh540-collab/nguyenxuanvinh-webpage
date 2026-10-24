@@ -8,3 +8,5 @@ imgs/
 # Bản sao lưu do trang edit tạo ra
 index.backup-*.html
 .wrangler/
+_img-original/
+_backup/
