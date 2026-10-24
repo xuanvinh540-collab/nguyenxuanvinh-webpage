@@ -13,7 +13,7 @@ async function start() {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" }); }
   catch { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.25));
   const cv = renderer.domElement;
   cv.className = "fly-gl";
   scenes[scenes.length - 1].after(cv);
@@ -52,7 +52,7 @@ async function start() {
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
         return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
-      float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 5; i++){ v += a*noise(p); p *= 2.02; a *= .5; } return v; }
+      float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 4; i++){ v += a*noise(p); p *= 2.02; a *= .5; } return v; }
       vec2 cover(vec2 uv, float ia){ float sa = res.x/res.y;
         if (sa > ia) uv.y = (uv.y-.5)*(ia/sa)+.5; else uv.x = (uv.x-.5)*(sa/ia)+.5; return uv; }
       vec3 samp(sampler2D t, vec2 uv, float ia, vec2 o, float s, vec2 off, float split){
@@ -99,6 +99,7 @@ async function start() {
 
   fly.classList.add("gl-on");
   const t0 = performance.now();
+  let lastP = -1, lastW = 0;
   (function frame(now) {
     requestAnimationFrame(frame);
     const r = stage.getBoundingClientRect();
@@ -110,6 +111,9 @@ async function start() {
     if (idx >= 1 && p < idx * seg) { from = idx - 1; m = clamp((p - (idx * seg - fade)) / fade); }
     uniforms.t0.value = items[from].tex; uniforms.asp0.value = items[from].aspect; uniforms.o0.value = origins[from]; uniforms.s0.value = zoom(from, p);
     uniforms.t1.value = items[to].tex;   uniforms.asp1.value = items[to].aspect;   uniforms.o1.value = origins[to];   uniforms.s1.value = zoom(to, p);
+    // ảnh đứng yên (không cuộn, không chuyển cảnh) thì không vẽ lại
+    if (p === lastP && m === 0 && lastW === stage.clientWidth) return;
+    lastP = p; lastW = stage.clientWidth;
     uniforms.m.value = m;
     uniforms.time.value = (now - t0) / 1000;
     renderer.render(scene, cam);

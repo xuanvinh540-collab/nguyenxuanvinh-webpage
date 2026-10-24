@@ -494,7 +494,8 @@
   const LEVELS = 26;          // số đường đồng mức (nhiều = dày)
   const MAJOR_EVERY = 5;      // cứ mỗi 5 đường có 1 đường đậm hơn
   const SPEED = 0.00011;      // tốc độ biến dạng (nhanh hơn bản cũ ~2.7 lần)
-  const CELL = 10;            // độ mịn lưới (nhỏ = mượt hơn, nặng hơn)
+  const CELL = matchMedia("(pointer: coarse)").matches ? 18 : 13;   // độ mịn lưới (nhỏ = mượt hơn, nặng hơn); điện thoại thưa hơn
+  const CONTOUR_FPS = 24;     // contour trôi chậm nên 24 hình/giây là đủ, đỡ tốn CPU
   const MINOR = "rgba(165,124,86,.27)", MAJOR = "rgba(165,124,86,.46)";
   const MOUSE_R = 360;        // vùng chuột ảnh hưởng (px)
   const BOOST = 0.2;          // gần chuột: nhanh + mạnh hơn 20%
@@ -629,11 +630,13 @@
     const fr = fly.getBoundingClientRect();
     return sp >= 1 && fr.top <= 0 && fr.bottom >= innerHeight;
   }
+  let lastDraw = -1e9;
   function frame(t) {
     mouse.sx += (mouse.x - mouse.sx) * 0.1;
     mouse.sy += (mouse.y - mouse.sy) * 0.1;
     mouse.k += ((mouse.on ? 1 : 0) - mouse.k) * 0.05;
-    if (!covered()) {
+    if (!covered() && t - lastDraw >= 1000 / CONTOUR_FPS) {
+      lastDraw = t;
       draw(t);
       if (sp < 1) { hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.clearRect(0, 0, heroCv.width, heroCv.height); hctx.drawImage(cv, 0, 0); }
     }
