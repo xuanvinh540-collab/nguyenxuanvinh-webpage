@@ -63,6 +63,9 @@
   .statement { display: grid; grid-template-columns: 1fr 2.2fr; gap: 40px; padding-block: clamp(80px, 14vw, 180px); }
   .statement p { font-size: clamp(24px, 3.2vw, 46px); line-height: 1.15; letter-spacing: -.015em; font-weight: 500; }
   .statement p span { color: var(--coffee); }
+  /* ảnh chân dung nhỏ cạnh câu giới thiệu */
+  .about-me { display: inline-grid; align-self: start; gap: 10px; }
+  .about-me img { width: clamp(150px, 15vw, 220px); aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
   .sign { margin-top: 32px; font-family: var(--display); font-size: 28px; color: var(--ink); }
   .sign::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 12px; background: var(--accent); vertical-align: middle; }
 
@@ -333,9 +336,9 @@
 
 <!-- 3. Statement -->
 <section class="statement wrap" id="about">
-  <div class="label">a message from vinh</div>
+  <div class="about-me"><img src="img/about/vinh.jpg?v=2" alt="Nguyen Xuan Vinh"></div>
   <div>
-    <p>I turn drawings into places you can almost walk into. <span>Highrises, resorts, hospitals and hotels — rendered with light, material and time of day in mind.</span></p>
+    <p>I support architects and clients with visuals that sell the idea before it is built. <span>Highrises, resorts, hospitals and hotels — stills, aerials and interiors rendered with light, material and time of day in mind, so every decision is made with confidence.</span></p>
     <div class="sign">— Nguyen Xuan Vinh</div>
   </div>
 </section>
@@ -1026,7 +1029,7 @@
 </script>
 
 
-<script src="js/name-particles.js?v=4"></script>
+<script src="js/name-particles.js?v=8"></script>
 <script type="module" src="js/fly-gl.js?v=4"></script>
 <script type="module" src="js/hover-gl.js?v=4"></script>
 </body></html>
