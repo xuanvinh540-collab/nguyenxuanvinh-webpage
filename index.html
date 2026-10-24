@@ -196,7 +196,9 @@
   /* orbit ghim lại 120vh: chữ bay lên + mờ dần rồi hòa vào ảnh fly-through nằm ngay bên dưới (không có đường ranh) */
   .orbit-wrap { position: relative; z-index: 2; height: 220vh; pointer-events: none; }
   .orbit-wrap + .fly { margin-top: -220vh; height: 640vh; z-index: 1; }
-  .orbit { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1400px; background: radial-gradient(ellipse at 50% 38%, #343b2a 0%, #262b1f 68%); pointer-events: auto; will-change: opacity; }
+  .orbit { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1400px; pointer-events: auto; will-change: opacity; }
+  /* nền xanh của phần đầu: mờ dần (--orbit-bg) để ảnh hero hiện ra sau đám hạt */
+  .orbit::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 38%, #343b2a 0%, #262b1f 68%); opacity: var(--orbit-bg, 1); pointer-events: none; }
   .orbit .word { will-change: transform, opacity, letter-spacing; }
   .orbit canvas.contour { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
     -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 38%, rgba(0,0,0,.45) 100%); mask-image: radial-gradient(ellipse at 50% 45%, #000 38%, rgba(0,0,0,.45) 100%); }
@@ -1024,7 +1026,7 @@
 </script>
 
 
-<script src="js/name-particles.js"></script>
-<script type="module" src="js/fly-gl.js"></script>
-<script type="module" src="js/hover-gl.js"></script>
+<script src="js/name-particles.js?v=4"></script>
+<script type="module" src="js/fly-gl.js?v=4"></script>
+<script type="module" src="js/hover-gl.js?v=4"></script>
 </body></html>
