@@ -111,7 +111,9 @@
       };
     });
 
-    const layers = W < 760 ? 4 : LAYERS;
+    // máy yếu (ít nhân CPU / ít RAM) hoặc điện thoại: ít lớp hạt hơn cho mượt
+    const weak = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+    const layers = W < 760 ? 3 : weak ? 4 : LAYERS;
     const step = 2;
     const data = o.getImageData(0, 0, W, H).data;
     const samples = [];

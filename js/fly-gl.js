@@ -9,7 +9,8 @@ const stage = fly && fly.querySelector(".stage");
 const scenes = fly ? [...fly.querySelectorAll(".scene")] : [];
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const MODE = "particles";
-const STEP = matchMedia("(pointer: coarse)").matches ? 5.5 : 4.25;   // khoảng cách hạt (px): nhỏ = nhiều hạt hơn, nặng hơn
+const WEAK = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+const STEP = matchMedia("(pointer: coarse)").matches ? 5.5 : WEAK ? 5.5 : 4.25;   // khoảng cách hạt (px): nhỏ = nhiều hạt hơn, nặng hơn
 const SCATTER = 0.55;   // hạt bay ra xa bao nhiêu (theo bề ngang màn hình)
 const DEPTH = 1.6;      // độ bay theo chiều sâu
 const ROT = 0.85;       // ảnh mới hình thành trong không gian 3D xoay (radian), xoay về chính diện khi ghép xong
