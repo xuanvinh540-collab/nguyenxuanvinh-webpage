@@ -1,8 +1,28 @@
 <!doctype html>
-<html lang="vi"><head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nguyen Xuan Vinh — Archviz Portfolio</title>
+<title>Nguyen Xuan Vinh — 3D Architectural Visualization Artist, Vietnam</title>
+<meta name="description" content="Archviz portfolio of Nguyen Xuan Vinh: photorealistic 3D renders of resorts, hotels, hospitals, highrises and masterplans in Vietnam, Morocco and France — stills, aerials and interiors.">
+<meta name="author" content="Nguyen Xuan Vinh">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://nxvinh.pages.dev/">
+<meta name="theme-color" content="#262b1f">
+<!-- Ảnh và chữ hiện khi chia sẻ link (Facebook, Zalo, LinkedIn, X) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nguyen Xuan Vinh — Archviz">
+<meta property="og:title" content="Nguyen Xuan Vinh — 3D Architectural Visualization Artist, Vietnam">
+<meta property="og:description" content="Archviz portfolio of Nguyen Xuan Vinh: photorealistic 3D renders of resorts, hotels, hospitals, highrises and masterplans in Vietnam, Morocco and France — stills, aerials and interiors.">
+<meta property="og:url" content="https://nxvinh.pages.dev/">
+<meta property="og:image" content="https://nxvinh.pages.dev/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Asni Marrakech resort garden — 3D render by Nguyen Xuan Vinh">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nguyen Xuan Vinh — 3D Architectural Visualization Artist, Vietnam">
+<meta name="twitter:description" content="Archviz portfolio of Nguyen Xuan Vinh: photorealistic 3D renders of resorts, hotels, hospitals, highrises and masterplans in Vietnam, Morocco and France — stills, aerials and interiors.">
+<meta name="twitter:image" content="https://nxvinh.pages.dev/img/og-cover.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23262b1f'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='26' fill='%23d4ff00'%3EVX%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
@@ -221,6 +241,8 @@
   .orbit .word { position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 10; text-align: center; pointer-events: none;
     font-family: var(--display); line-height: .86; letter-spacing: -.01em; font-size: clamp(80px, 20vw, 330px); }
   .orbit .word span { color: var(--coffee); }
+  .orbit .word { font-weight: 400; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .orbit .word { font-family: var(--display); text-transform: uppercase; line-height: .9; letter-spacing: 0 !important; }
   .orbit .word .w1, .orbit .word .w2 { display: block; width: max-content; margin: 0 auto; white-space: nowrap; }
   .orbit .word .w1 { color: var(--accent); font-size: clamp(64px, 15vw, 250px); letter-spacing: .28em; padding-left: .28em; }
@@ -287,6 +309,33 @@
   .ph:has(img.gl-live) { background: transparent !important; }
   .work:has(img.gl-live)::before { display: none; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Nguyen Xuan Vinh",
+  "alternateName": "VinhNX",
+  "jobTitle": "3D Architectural Visualization Artist",
+  "url": "https://nxvinh.pages.dev/",
+  "image": "https://nxvinh.pages.dev/img/about/vinh.jpg",
+  "email": "mailto:xuanvinh540@gmail.com",
+  "telephone": "+84938571867",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "VN"
+  },
+  "knowsAbout": [
+    "Architectural visualization",
+    "3D rendering",
+    "Archviz",
+    "Masterplan rendering",
+    "Interior rendering",
+    "Aerial rendering",
+    "3ds Max"
+  ],
+  "description": "Archviz portfolio of Nguyen Xuan Vinh: photorealistic 3D renders of resorts, hotels, hospitals, highrises and masterplans in Vietnam, Morocco and France — stills, aerials and interiors."
+}
+</script>
 </head>
 <body>
 <canvas class="bg-contour" id="bgContour" aria-hidden="true"></canvas>
@@ -304,7 +353,7 @@
 <section class="orbit-wrap" id="orbitWrap">
   <div class="orbit" id="orbit">
     <canvas class="contour" id="contour"></canvas>
-    <div class="word" id="orbitWord"><span class="w1">Nguyen</span><span class="w2" style="letter-spacing: 91.0243px; padding-left: 91.0243px;">Xuan Vinh</span></div>
+    <h1 class="word" id="orbitWord"><span class="w1">Nguyen</span> <span class="w2">Xuan Vinh</span><span class="sr-only"> — 3D architectural visualization artist</span></h1>
     <div class="label meta">nguyen xuan vinh — archviz</div>
     <div class="label meta meta-r">highrise · resort · hospital · hotel</div>
     <div class="label tip" id="tip"></div>
@@ -318,7 +367,7 @@
     <div class="scene" data-origin="50% 55%"><img src="img/uploads/p19_1.jpg" alt="Asni Marrakech, hotel lobby"></div>
     <div class="scene" data-origin="45% 60%"><img src="img/uploads/Entrance%20dakkla.jpg" alt="Kaan Dakhla, resort entrance"></div>
 
-    <h1 class="hero-title display" id="heroTitle"><span>Asni</span><span>Marrakech</span></h1>
+    <p class="hero-title display" id="heroTitle"><span>Asni</span><span>Marrakech</span></p>
     <div class="hero-meta label" id="heroMeta"><strong>Architectural visualization</strong>Morocco — resort &amp; hotel</div>
     <div class="hint label" id="hint">scroll to enter ↓</div>
 
@@ -369,30 +418,30 @@
 <!-- 5. Split cards: bấm để mở gallery kéo ngang -->
 <section class="split wrap">
   <a class="card" href="#gal-ext" data-gallery="gal-ext"><img src="img/uploads/06-SA-Street-2.jpg" alt="Jabal al Shifa, street"><span class="label">exterior</span><h3 class="display">Exte<br>rior</h3><span class="go">view gallery →</span></a>
-  <a class="card" href="#gal-int" data-gallery="gal-int"><img src="img/pdf/p19_1.jpg" alt=""><span class="label">interior</span><h3 class="display">Inte<br>rior</h3><span class="go">view gallery →</span></a>
+  <a class="card" href="#gal-int" data-gallery="gal-int"><img src="img/pdf/p19_1.jpg" alt="Interior renders — 3D render by Nguyen Xuan Vinh"><span class="label">interior</span><h3 class="display">Inte<br>rior</h3><span class="go">view gallery →</span></a>
 </section>
 
 <!-- Gallery Exterior -->
 <div class="gallery" id="gal-ext" data-lenis-prevent="" aria-hidden="true">
   <div class="g-head"><h3 class="display">Exterior</h3><button class="g-close" type="button">close ✕</button></div>
   <div class="g-track">
-    <figure><img loading="lazy" src="img/pdf/p07_1.jpg" alt=""><figcaption>Bai Om Resort — arrival</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p08_1.jpg" alt=""><figcaption>Bai Om Resort — pool pavilion</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p09_1.jpg" alt=""><figcaption>Bai Om Resort — infinity pool</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p10_1.jpg" alt=""><figcaption>Morocco Resort — entrance</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/exsel%20martini%20copy.jpg" alt=""><figcaption>Exsel Martinique — pool deck</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p12_1.jpg" alt=""><figcaption>Cabana in France</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p04_1.jpg" alt=""><figcaption>FV Hospital</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p05_1.jpg" alt=""><figcaption>FV Hospital — facade</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/Lanscape1-2.jpg" alt=""><figcaption>Asni Marrakech — garden</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p14_2.jpg" alt=""><figcaption>Thinh Phat Residence — podium</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p16_1.jpg" alt=""><figcaption>Hung Khang Hotel</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p07_1.jpg" alt="Bai Om Resort — arrival — 3D render by Nguyen Xuan Vinh"><figcaption>Bai Om Resort — arrival</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p08_1.jpg" alt="Bai Om Resort — pool pavilion — 3D render by Nguyen Xuan Vinh"><figcaption>Bai Om Resort — pool pavilion</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p09_1.jpg" alt="Bai Om Resort — infinity pool — 3D render by Nguyen Xuan Vinh"><figcaption>Bai Om Resort — infinity pool</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p10_1.jpg" alt="Morocco Resort — entrance — 3D render by Nguyen Xuan Vinh"><figcaption>Morocco Resort — entrance</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/exsel%20martini%20copy.jpg" alt="Exsel Martinique — pool deck — 3D render by Nguyen Xuan Vinh"><figcaption>Exsel Martinique — pool deck</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p12_1.jpg" alt="Cabana in France — 3D render by Nguyen Xuan Vinh"><figcaption>Cabana in France</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p04_1.jpg" alt="FV Hospital — 3D render by Nguyen Xuan Vinh"><figcaption>FV Hospital</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p05_1.jpg" alt="FV Hospital — facade — 3D render by Nguyen Xuan Vinh"><figcaption>FV Hospital — facade</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/Lanscape1-2.jpg" alt="Asni Marrakech — garden — 3D render by Nguyen Xuan Vinh"><figcaption>Asni Marrakech — garden</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p14_2.jpg" alt="Thinh Phat Residence — podium — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — podium</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p16_1.jpg" alt="Hung Khang Hotel — 3D render by Nguyen Xuan Vinh"><figcaption>Hung Khang Hotel</figcaption></figure>
     
-    <figure><img loading="lazy" src="img/pdf/p16_3.jpg" alt=""><figcaption>Hung Khang Hotel — entrance</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p18_1.jpg" alt=""><figcaption>Asni Marrakech Resort</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p16_3.jpg" alt="Hung Khang Hotel — entrance — 3D render by Nguyen Xuan Vinh"><figcaption>Hung Khang Hotel — entrance</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p18_1.jpg" alt="Asni Marrakech Resort — 3D render by Nguyen Xuan Vinh"><figcaption>Asni Marrakech Resort</figcaption></figure>
     
     
-    <figure><img loading="lazy" src="img/pdf/p22_1.jpg" alt=""><figcaption>Wink Hotel</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p22_1.jpg" alt="Wink Hotel — 3D render by Nguyen Xuan Vinh"><figcaption>Wink Hotel</figcaption></figure>
   </div>
   <div class="g-foot"><span class="g-count">01 / 14</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
 </div>
@@ -401,21 +450,21 @@
 <div class="gallery" id="gal-int" data-lenis-prevent="" aria-hidden="true">
   <div class="g-head"><h3 class="display">Interior</h3><button class="g-close" type="button">close ✕</button></div>
   <div class="g-track">
-    <figure><img loading="lazy" src="img/pdf/p19_1.jpg" alt=""><figcaption>Asni Marrakech — lobby</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p20_1.jpg" alt=""><figcaption>Asni Marrakech — lounge</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/BC-Bar%20Aerial%20copy.jpg" alt=""><figcaption>Beach bar</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p20_3.jpg" alt=""><figcaption>Asni Marrakech — reception</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/AZIZIAH_Interior.jpg" alt=""><figcaption>Aziziah — living room</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p21_2.jpg" alt=""><figcaption>Koon Domaine Resort — lounge</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p21_4.jpg" alt=""><figcaption>Koon Domaine Resort — hall</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p21_5.jpg" alt=""><figcaption>Koon Domaine Resort — restaurant</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p22_2.jpg" alt=""><figcaption>Wink Hotel — lobby</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p22_3.jpg" alt=""><figcaption>Wink Hotel — lounge</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p17_1.jpg" alt=""><figcaption>Riyad School — library</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p15_1.jpg" alt=""><figcaption>Thinh Phat Residence — living room</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p15_3.jpg" alt=""><figcaption>Thinh Phat Residence — kitchen</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p15_4.jpg" alt=""><figcaption>Thinh Phat Residence — apartment</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p15_6.jpg" alt=""><figcaption>Thinh Phat Residence — bathroom</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p19_1.jpg" alt="Asni Marrakech — lobby — 3D render by Nguyen Xuan Vinh"><figcaption>Asni Marrakech — lobby</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p20_1.jpg" alt="Asni Marrakech — lounge — 3D render by Nguyen Xuan Vinh"><figcaption>Asni Marrakech — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/BC-Bar%20Aerial%20copy.jpg" alt="Beach bar — 3D render by Nguyen Xuan Vinh"><figcaption>Beach bar</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p20_3.jpg" alt="Asni Marrakech — reception — 3D render by Nguyen Xuan Vinh"><figcaption>Asni Marrakech — reception</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/AZIZIAH_Interior.jpg" alt="Aziziah — living room — 3D render by Nguyen Xuan Vinh"><figcaption>Aziziah — living room</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_2.jpg" alt="Koon Domaine Resort — lounge — 3D render by Nguyen Xuan Vinh"><figcaption>Koon Domaine Resort — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_4.jpg" alt="Koon Domaine Resort — hall — 3D render by Nguyen Xuan Vinh"><figcaption>Koon Domaine Resort — hall</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p21_5.jpg" alt="Koon Domaine Resort — restaurant — 3D render by Nguyen Xuan Vinh"><figcaption>Koon Domaine Resort — restaurant</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p22_2.jpg" alt="Wink Hotel — lobby — 3D render by Nguyen Xuan Vinh"><figcaption>Wink Hotel — lobby</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p22_3.jpg" alt="Wink Hotel — lounge — 3D render by Nguyen Xuan Vinh"><figcaption>Wink Hotel — lounge</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p17_1.jpg" alt="Riyad School — library — 3D render by Nguyen Xuan Vinh"><figcaption>Riyad School — library</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_1.jpg" alt="Thinh Phat Residence — living room — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — living room</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_3.jpg" alt="Thinh Phat Residence — kitchen — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — kitchen</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_4.jpg" alt="Thinh Phat Residence — apartment — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — apartment</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p15_6.jpg" alt="Thinh Phat Residence — bathroom — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — bathroom</figcaption></figure>
   </div>
   <div class="g-foot"><span class="g-count">01 / 15</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
 </div>
@@ -424,9 +473,9 @@
 <section class="wrap mp-sec">
   <div class="sec-head"><h2 class="display">Master<br>plans</h2><span class="label">04 images · click to view</span></div>
   <div class="mp-show">
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/pdf/p03_1.jpg" alt=""><span class="label">01 — masterplan</span><h3 class="mp-name">Luong Hoa</h3></a>
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.jpg" alt=""><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/ANTI%20TCI.jpg" alt=""><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/pdf/p03_1.jpg" alt="Luong Hoa — 3D render by Nguyen Xuan Vinh"><span class="label">01 — masterplan</span><h3 class="mp-name">Luong Hoa</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.jpg" alt="Thinh Phat — 3D render by Nguyen Xuan Vinh"><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/ANTI%20TCI.jpg" alt="Anti TCI — 3D render by Nguyen Xuan Vinh"><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
     <a class="mp-more" href="#gal-mp" data-gallery="gal-mp"><span class="mp-count">04</span><span class="go">view all →</span></a>
   </div>
 </section>
@@ -435,12 +484,12 @@
 <div class="gallery" id="gal-mp" data-lenis-prevent="" aria-hidden="true">
   <div class="g-head"><h3 class="display">Masterplans</h3><button class="g-close" type="button">close ✕</button></div>
   <div class="g-track">
-    <figure><img loading="lazy" src="img/pdf/p03_1.jpg" alt=""><figcaption>Luong Hoa Masterplan</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p06_1.jpg" alt=""><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p13_1.jpg" alt=""><figcaption>Thinh Phat Residence — aerial</figcaption></figure>
-    <figure><img loading="lazy" src="img/pdf/p14_1.jpg" alt=""><figcaption>Thinh Phat Residence — site study</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/p04_1.jpg" alt=""><figcaption>FV Hospital</figcaption></figure>
-    <figure><img loading="lazy" src="img/uploads/p06_1.jpg" alt=""><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p03_1.jpg" alt="Luong Hoa Masterplan — 3D render by Nguyen Xuan Vinh"><figcaption>Luong Hoa Masterplan</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p06_1.jpg" alt="Lotte Eco Smart City Thu Thiem — 3D render by Nguyen Xuan Vinh"><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p13_1.jpg" alt="Thinh Phat Residence — aerial — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — aerial</figcaption></figure>
+    <figure><img loading="lazy" src="img/pdf/p14_1.jpg" alt="Thinh Phat Residence — site study — 3D render by Nguyen Xuan Vinh"><figcaption>Thinh Phat Residence — site study</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/p04_1.jpg" alt="FV Hospital — 3D render by Nguyen Xuan Vinh"><figcaption>FV Hospital</figcaption></figure>
+    <figure><img loading="lazy" src="img/uploads/p06_1.jpg" alt="Lotte Eco Smart City Thu Thiem — 3D render by Nguyen Xuan Vinh"><figcaption>Lotte Eco Smart City Thu Thiem</figcaption></figure>
   </div>
   <div class="g-foot"><span class="g-count">01 / 06</span><div class="g-bar"><b></b></div><span>scroll · drag · ← →</span></div>
 </div>
@@ -880,7 +929,9 @@
         const nm = await writeImage(up, a.file);
         const fig = doc.createElement("figure");
         fig.innerHTML = `<img loading="lazy" src="img/uploads/${encodeURIComponent(nm)}" alt=""><figcaption></figcaption>`;
-        fig.querySelector("figcaption").textContent = a.fig.querySelector("figcaption").textContent.trim();
+        const cap = a.fig.querySelector("figcaption").textContent.trim();
+        fig.querySelector("figcaption").textContent = cap;
+        if (cap) fig.querySelector("img").alt = cap + " — 3D render by Nguyen Xuan Vinh";   // alt cho SEO
         dTracks[a.ti].append("  ", fig, "\n  ");
       }
       // số ảnh hiển thị ở gallery

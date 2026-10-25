@@ -97,7 +97,7 @@ Chạy trong Git Bash, tại `D:\Ai\Vinhportfolio`:
 S=$(date +%Y%m%d-%H%M); mkdir -p _backup/$S && cp -r index.html js img _backup/$S/
 
 # 2. dựng thư mục deploy (chỉ những gì cần lên web)
-rm -rf site && mkdir site && cp index.html site/ && cp -r js img site/
+rm -rf site && mkdir site && cp index.html robots.txt sitemap.xml site/ && cp -r js img site/
 
 # 3. deploy Cloudflare Pages
 npx wrangler@3 pages deploy site --project-name nxvinh --branch main --commit-dirty=true
