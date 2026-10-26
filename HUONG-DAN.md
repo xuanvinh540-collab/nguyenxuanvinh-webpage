@@ -22,6 +22,7 @@ Tài liệu ghi lại cấu trúc trang, cách chỉnh, cách đưa lên web và
 | `img/about/vinh.jpg` | Ảnh chân dung | Có |
 | `edit.html` | Lối tắt mở chế độ sửa (`index.html?edit`) | Không |
 | `start.bat` | Bật server trên máy để xem trang (bắt buộc cho WebGL và trang edit) | Không |
+| `deploy.bat` | Nhấp đúp để đưa lên web và lưu GitHub (xem mục 4) | Không |
 | `_img-original/`, `_backup/` | Ảnh gốc chưa nén, các bản sao lưu | Không |
 | `_pdf/`, `imgs/`, `client/` | Tư liệu gốc (PDF tách trang, ảnh nguồn, logo gốc) | Không |
 | `site/` | Bản dựng tạm để deploy (tạo lại mỗi lần) | Không |
@@ -89,6 +90,68 @@ Sau khi sửa file JS, tăng số `?v=` trong thẻ `<script>` ở cuối `index
 ---
 
 ## 4. Đưa lên web và lưu GitHub
+
+### 4.1 Sơ đồ tổng thể
+
+```mermaid
+flowchart LR
+  subgraph MAY["Máy của bạn — D:\Ai\Vinhportfolio"]
+    direction TB
+    E["edit.html<br/>sửa chữ, thay ảnh<br/>(start.bat → 127.0.0.1:8791)"]
+    SRC["index.html · js/ · img/<br/>robots.txt · sitemap.xml"]
+    BK["_backup/ · _img-original/<br/>(chỉ trên máy)"]
+    SITE["site/<br/>bản dựng tạm, chỉ file cần lên web"]
+    E -- "Lưu (Ctrl+S)<br/>ảnh tự nén WebP" --> SRC
+    SRC -. "sao lưu" .-> BK
+    SRC -- "deploy.bat bước 1<br/>copy" --> SITE
+  end
+
+  subgraph CF["Cloudflare Pages — project nxvinh"]
+    WEB["https://nxvinh.pages.dev<br/>HTTPS · chống DDoS · CDN"]
+  end
+
+  subgraph GH["GitHub"]
+    REPO["xuanvinh540-collab/<br/>nguyenxuanvinh-webpage<br/>(nhánh main)"]
+  end
+
+  SITE -- "deploy.bat bước 2<br/>wrangler pages deploy" --> WEB
+  SRC -- "deploy.bat bước 3<br/>git commit + push" --> REPO
+  WEB --> V["Người xem<br/>máy tính · điện thoại"]
+  WEB --> G["Google<br/>robots.txt · sitemap.xml"]
+```
+
+Ý chính:
+- **Nguồn thật** là thư mục trên máy. GitHub chỉ để lưu lịch sử; Cloudflare chỉ nhận thư mục `site/`.
+- Push GitHub **không** tự cập nhật web, và deploy web **không** tự lưu GitHub. `deploy.bat` làm cả hai.
+- Những thứ chỉ để trên máy (`_backup/`, `_img-original/`, `_pdf/`, `imgs/`, `client/`, `edit.html`, `start.bat`) không bao giờ lên web.
+
+### 4.2 Quy trình mỗi lần cập nhật
+
+```mermaid
+flowchart TD
+  A["1. Nhấp đúp start.bat"] --> B["2. Mở edit.html, mật khẩu vinhnx2026"]
+  B --> C["3. Sửa chữ / thay ảnh → bấm Lưu<br/>chọn thư mục D:\Ai\Vinhportfolio"]
+  C --> D["4. Xem lại ở 127.0.0.1:8791 (Ctrl+F5)"]
+  D --> OK{"Ổn chưa?"}
+  OK -- "chưa" --> B
+  OK -- "rồi" --> F["5. Nhấp đúp deploy.bat"]
+  F --> F1["[1/3] dựng site/"]
+  F1 --> F2["[2/3] wrangler → Cloudflare"]
+  F2 -- "lỗi" --> X["Chụp màn hình gửi Claude<br/>nếu thấy chữ login: npx wrangler@3 login"]
+  F2 -- "xong" --> F3["[3/3] git commit + push → GitHub"]
+  F3 --> H["6. Đợi ~30 giây, mở nxvinh.pages.dev<br/>bấm Ctrl+Shift+R"]
+```
+
+### 4.3 Quay lại bản cũ
+
+```mermaid
+flowchart LR
+  P{"Hỏng gì?"} -- "web hiện sai" --> R1["Cloudflare Dashboard → Workers & Pages → nxvinh<br/>→ Deployments → chọn bản cũ → Rollback"]
+  P -- "file trên máy hỏng" --> R2["Chép lại từ _backup/&lt;ngày giờ&gt;/<br/>hoặc index.backup-*.html"]
+  P -- "cần bản của một lần commit" --> R3["GitHub → History → xem / tải bản cũ<br/>(hoặc nhờ Claude git revert)"]
+```
+
+### 4.4 Lệnh tay (khi không dùng deploy.bat)
 
 Chạy trong Git Bash, tại `D:\Ai\Vinhportfolio`:
 

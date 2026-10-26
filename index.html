@@ -294,6 +294,27 @@
   .adm-gone { animation: admGone .35s forwards; }
   @keyframes admGone { to { opacity: 0; transform: scale(.94); } }
 
+  /* Admin: ảnh hero hiện bản DOM để thay / chỉnh khung được */
+  body.admin .fly.gl-on .scene { visibility: visible; }
+  body.admin .fly-gl { visibility: hidden; }
+  /* Admin: thanh chỉnh chữ và bảng khung ảnh */
+  .adm-tt, .adm-fp { position: fixed; z-index: 140; display: none; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px;
+    background: rgba(38,43,31,.96); border: 1px solid rgba(236,234,217,.3); backdrop-filter: blur(8px);
+    font: 500 12px/1 var(--body); color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .adm-tt button, .adm-fp button { font: inherit; color: var(--ink); background: transparent; border: 1px solid rgba(236,234,217,.3); border-radius: 6px; padding: 6px 9px; cursor: pointer; }
+  .adm-tt button:hover, .adm-fp button:hover { border-color: var(--accent); color: var(--accent); }
+  .adm-fp button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .adm-tt input[type=color] { width: 28px; height: 26px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .adm-tt input[type=number] { width: 56px; font: inherit; color: var(--ink); background: rgba(0,0,0,.25); border: 1px solid rgba(236,234,217,.3); border-radius: 6px; padding: 5px 6px; }
+  .adm-tt select { font: inherit; color: var(--ink); background: #262b1f; border: 1px solid rgba(236,234,217,.3); border-radius: 6px; padding: 5px 6px; max-width: 160px; }
+  .adm-tt .u { color: var(--muted); margin-left: -3px; }
+  .adm-tt .scope { color: var(--muted); padding-left: 4px; white-space: nowrap; }
+  .adm-fp { left: 50%; bottom: 70px; transform: translateX(-50%); grid-template-columns: 1fr; gap: 10px; padding: 12px 14px; min-width: 280px; }
+  .adm-fp label { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 10px; color: var(--muted); }
+  .adm-fp [hidden] { display: none; }
+  .adm-fp input[type=range] { accent-color: var(--accent); }
+  .adm-fp div { display: flex; gap: 8px; justify-content: flex-end; }
+
   /* Lenis smooth scroll */
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -353,7 +374,7 @@
 <section class="orbit-wrap" id="orbitWrap">
   <div class="orbit" id="orbit">
     <canvas class="contour" id="contour"></canvas>
-    <h1 class="word" id="orbitWord"><span class="w1">Nguyen</span> <span class="w2">Xuan Vinh</span><span class="sr-only"> — 3D architectural visualization artist</span></h1>
+    <h1 class="word" id="orbitWord"><span class="w1">Nguyen</span> <span class="w2" style="letter-spacing: 91.0243px; padding-left: 91.0243px;">Xuan Vinh</span><span class="sr-only"> — 3D architectural visualization artist</span></h1>
     <div class="label meta">nguyen xuan vinh — archviz</div>
     <div class="label meta meta-r">highrise · resort · hospital · hotel</div>
     <div class="label tip" id="tip"></div>
@@ -386,9 +407,9 @@
 
 <!-- 3. Statement -->
 <section class="statement wrap" id="about">
-  <div class="about-me"><img src="img/about/vinh.webp?v=2" alt="Nguyen Xuan Vinh"></div>
+  <div class="about-me"><img src="img/about/vinh.webp?v=2" alt="Nguyen Xuan Vinh" style="object-position: 28% 87%;"></div>
   <div>
-    <p>I support architects and clients with visuals that sell the idea before it is built. <span>Highrises, resorts, hospitals and hotels — stills, aerials and interiors rendered with light, material and time of day in mind, so every decision is made with confidence.</span></p>
+    <p>With over 15 years of experience in architectural visualization, I have collaborated with leading architecture firms in Vietnam and around the world on a wide range of projects. <span>Highrises, resorts, hospitals and hotels — will&nbsp;</span><span data-es="" style="color: rgb(165, 124, 86);">present your projects in the most compelling, polished, and professional way possible</span><span>.</span></p>
     <div class="sign">— Nguyen Xuan Vinh</div>
   </div>
 </section>
@@ -417,7 +438,7 @@
 
 <!-- 5. Split cards: bấm để mở gallery kéo ngang -->
 <section class="split wrap">
-  <a class="card" href="#gal-ext" data-gallery="gal-ext"><img src="img/uploads/06-SA-Street-2.webp" alt="Jabal al Shifa, street"><span class="label">exterior</span><h3 class="display">Exte<br>rior</h3><span class="go">view gallery →</span></a>
+  <a class="card" href="#gal-ext" data-gallery="gal-ext"><img src="img/uploads/Central%20Viewb.webp" alt="Jabal al Shifa, street"><span class="label">exterior</span><h3 class="display">Exte<br>rior</h3><span class="go">view gallery →</span></a>
   <a class="card" href="#gal-int" data-gallery="gal-int"><img src="img/pdf/p19_1.webp" alt="Interior renders — 3D render by Nguyen Xuan Vinh"><span class="label">interior</span><h3 class="display">Inte<br>rior</h3><span class="go">view gallery →</span></a>
 </section>
 
@@ -473,9 +494,9 @@
 <section class="wrap mp-sec">
   <div class="sec-head"><h2 class="display">Master<br>plans</h2><span class="label">04 images · click to view</span></div>
   <div class="mp-show">
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/pdf/p03_1.webp" alt="Luong Hoa — 3D render by Nguyen Xuan Vinh"><span class="label">01 — masterplan</span><h3 class="mp-name">Luong Hoa</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/Aerial_V1.webp" alt="Luong Hoa — 3D render by Nguyen Xuan Vinh"><span class="label">01 — masterplan</span><h3 class="mp-name">Alego resort</h3></a>
     <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/TP1b.webp" alt="Thinh Phat — 3D render by Nguyen Xuan Vinh"><span class="label">02 — residential</span><h3 class="mp-name">Thinh Phat</h3></a>
-    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/ANTI%20TCI.webp" alt="Anti TCI — 3D render by Nguyen Xuan Vinh"><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
+    <a class="card mp-card" href="#gal-mp" data-gallery="gal-mp"><img src="img/uploads/V1.webp" alt="Anti TCI — 3D render by Nguyen Xuan Vinh"><span class="label">03 — resort aerial</span><h3 class="mp-name">Anti TCI</h3></a>
     <a class="mp-more" href="#gal-mp" data-gallery="gal-mp"><span class="mp-count">04</span><span class="go">view all →</span></a>
   </div>
 </section>
@@ -711,7 +732,7 @@
 (() => {
   const ADMIN_HASH = "b1170e535fd85d544448ca579a5ace59e5df355ee082324055105473ac839f14";
   const TEXT_SEL = [
-    ".nav .mark", ".nav .links a", ".orbit .word", ".orbit .meta",
+    ".nav .mark", ".nav .links a", ".orbit .word .w1", ".orbit .word .w2", ".orbit .meta",
     ".hero-title span", ".hero-meta", ".hint", ".caption .num", ".caption .txt",
     ".ticker > div", ".statement .label", ".statement p", ".sign",
     ".sec-head h2", ".sec-head .label", ".works-intro p", ".works-intro .count", ".work figcaption > *", ".type-row div",
@@ -745,7 +766,7 @@
     texts = [...document.querySelectorAll(TEXT_SEL)];
     texts.forEach(el => {
       if (el.dataset.ed != null) return;
-      el.setAttribute("contenteditable", "true"); el.dataset.ed = ""; el.addEventListener("input", markDirty);
+      el.setAttribute("contenteditable", "true"); el.dataset.ed = ""; wireText(el);
     });
     imgs = [...document.querySelectorAll(IMG_SEL)];
     imgs.forEach((im, i) => { im.dataset.k = i; delete im.dataset.added; });
@@ -768,11 +789,12 @@
 
     hl = document.createElement("div"); hl.className = "adm-hl";
     tools = document.createElement("div"); tools.className = "adm-tools";
-    tools.innerHTML = '<button data-t="rep">⟳ thay ảnh</button><button class="del" data-t="del">✕ xóa</button>';
-    tools.addEventListener("click", e => { const t = e.target.dataset.t; if (t === "rep") replaceCur(); if (t === "del") removeCur(); });
+    tools.innerHTML = '<button data-t="rep">⟳ thay ảnh</button><button data-t="frame">⤢ khung ảnh</button><button class="del" data-t="del">✕ xóa</button>';
+    tools.addEventListener("click", e => { const t = e.target.dataset.t; if (t === "rep") replaceCur(); if (t === "del") removeCur(); if (t === "frame" && cur) openFrame(cur); });
     document.body.append(hl, tools);
 
     tracks.forEach(addTile);
+    initTextTools();
     addEventListener("pointermove", hover, { passive: true });
     addEventListener("scroll", () => cur && place(cur), { passive: true });
     document.querySelectorAll(".g-track").forEach(t => t.addEventListener("scroll", () => cur && place(cur), { passive: true }));
@@ -790,7 +812,7 @@
       fig.querySelector("img").src = URL.createObjectURL(f);
       fig.querySelector("img").dataset.added = "";
       fig.querySelector("figcaption").textContent = f.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
-      fig.querySelector("figcaption").addEventListener("input", markDirty);
+      wireText(fig.querySelector("figcaption"));
       track.insertBefore(fig, b);
       added.push({ fig, ti: tracks.indexOf(track), file: f });
       markDirty();
@@ -831,7 +853,7 @@
     const top = Math.max(r.top, 0), bottom = Math.min(r.bottom, innerHeight);
     if (bottom - top < 40) { hl.style.display = tools.style.display = "none"; return; }
     Object.assign(hl.style, { display: "block", left: r.left + "px", top: top + "px", width: r.width + "px", height: bottom - top + "px" });
-    Object.assign(tools.style, { display: "flex", left: Math.max(8, r.right - 210) + "px", top: top + 10 + "px" });
+    Object.assign(tools.style, { display: "flex", left: Math.max(8, r.right - 330) + "px", top: top + 10 + "px" });
   }
 
   function replaceCur() {
@@ -853,6 +875,177 @@
     setTimeout(() => fig.remove(), 350);
     markDirty();
   }
+
+
+  // ---- Chữ: giữ đúng màu/kiểu khi gõ, dán chữ trơn ----
+  // Trình duyệt hay chèn <font> hoặc <span style="color:..."> khi xóa/gõ đè, làm chữ lệch màu; dọn đi sau mỗi lần gõ.
+  function clean(el) {
+    el.querySelectorAll("font").forEach(f => f.replaceWith(...f.childNodes));
+    el.querySelectorAll("span[style]:not([class]):not([data-es])").forEach(n => n.replaceWith(...n.childNodes));
+    el.querySelectorAll("[style]:not([class]):not([data-es]):not(span)").forEach(n => n.removeAttribute("style"));
+  }
+  function wireText(el) {
+    el.addEventListener("input", () => { clean(el); markDirty(); placeTT(); });
+    el.addEventListener("paste", e => {
+      e.preventDefault();
+      document.execCommand("insertText", false, (e.clipboardData || window.clipboardData).getData("text/plain"));
+    });
+  }
+
+  // ---- Thanh chỉnh chữ: màu, cỡ, font (cả dòng, hoặc chỉ phần chữ đang bôi đen) ----
+  const FONTS = [
+    ["", "font gốc"], ["Anton", "Anton", "sans-serif"], ["Inter", "Inter", "sans-serif"],
+    ["Bebas Neue", "Bebas Neue", "sans-serif"], ["Montserrat", "Montserrat", "sans-serif"], ["Space Grotesk", "Space Grotesk", "sans-serif"],
+    ["Playfair Display", "Playfair Display", "serif"], ["Cormorant Garamond", "Cormorant Garamond", "serif"], ["DM Serif Display", "DM Serif Display", "serif"]
+  ];
+  const BASE_FONTS = ["Anton", "Inter"];
+  const FONT_BASE_URL = "https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@200;300;400;500;600";
+  const WEIGHTS = { "Montserrat": ":wght@300;400;500;600;700", "Space Grotesk": ":wght@300;400;500;600;700",
+    "Playfair Display": ":wght@400;500;600;700", "Cormorant Garamond": ":wght@300;400;500;600;700" };
+  const gfam = n => n.replace(/ /g, "+") + (WEIGHTS[n] || "");
+  const famOf = v => { const m = (v || "").match(/^\s*["']?([^"',]+)/); return m ? m[1].trim() : ""; };
+  function ensureFont(n) {
+    if (!n || BASE_FONTS.includes(n)) return;
+    const id = "gf-" + n.replace(/ /g, "-");
+    if (document.getElementById(id)) return;
+    const l = document.createElement("link"); l.id = id; l.rel = "stylesheet";
+    l.href = `https://fonts.googleapis.com/css2?family=${gfam(n)}&display=swap`;
+    document.head.appendChild(l);
+  }
+  const toHex = c => { const m = c.match(/[\d.]+/g) || [0, 0, 0]; return "#" + m.slice(0, 3).map(v => (+v | 0).toString(16).padStart(2, "0")).join(""); };
+
+  let tt = null, curText = null, savedRange = null;
+  function initTextTools() {
+    tt = document.createElement("div"); tt.className = "adm-tt";
+    tt.innerHTML = `<input type="color" data-k="color" title="màu chữ">
+      <button type="button" data-k="smaller" title="nhỏ hơn">A−</button>
+      <input type="number" data-k="size" min="6" max="400" step="1" title="cỡ chữ (px)"><span class="u">px</span>
+      <button type="button" data-k="bigger" title="lớn hơn">A+</button>
+      <select data-k="font" title="font">${FONTS.map(f => `<option value="${f[0]}">${f[1]}</option>`).join("")}</select>
+      <button type="button" data-k="reset" title="bỏ chỉnh màu, cỡ, font">↺ gốc</button>
+      <span class="scope"></span>`;
+    document.body.appendChild(tt);
+    FONTS.forEach(f => ensureFont(f[0]));   // nạp sẵn để chọn là thấy ngay (chỉ lúc sửa)
+    tt.addEventListener("mousedown", e => { if (e.target.tagName === "BUTTON") e.preventDefault(); });
+    tt.addEventListener("input", e => {
+      const k = e.target.dataset.k;
+      if (k === "color") applyStyle("color", e.target.value);
+      if (k === "size" && +e.target.value >= 6) setSize(+e.target.value);
+      if (k === "font") { const f = FONTS.find(x => x[0] === e.target.value); applyStyle("font-family", f[0] ? `"${f[0]}", ${f[2]}` : ""); }
+    });
+    tt.addEventListener("click", e => {
+      const k = e.target.dataset.k;
+      if (k === "smaller") setSize(curSize() - 2);
+      if (k === "bigger") setSize(curSize() + 2);
+      if (k === "reset") {
+        const t = styleTarget(false);
+        ["color", "font-size", "font-family"].forEach(p => t.style.removeProperty(p));
+        if (t.matches("span[data-es]") && !t.style.length) { savedRange = null; t.replaceWith(...t.childNodes); }
+        markDirty(); syncTT();
+      }
+    });
+    document.addEventListener("focusin", e => {
+      const el = e.target.closest && e.target.closest("[data-ed]");
+      if (el) { curText = el; savedRange = null; syncTT(); }
+    });
+    document.addEventListener("pointerdown", e => {
+      if (!e.target.closest(".adm-tt, [data-ed]")) { tt.style.display = "none"; curText = null; savedRange = null; }
+    }, true);
+    document.addEventListener("selectionchange", () => {
+      const sel = getSelection();
+      if (curText && sel.rangeCount && curText.contains(sel.anchorNode)) { savedRange = sel.getRangeAt(0).cloneRange(); updScope(); }
+    });
+    addEventListener("scroll", placeTT, { passive: true });
+  }
+  const hasSel = () => !!(savedRange && !savedRange.collapsed && curText && curText.contains(savedRange.commonAncestorContainer));
+  function styleTarget(create = true) {
+    if (!hasSel()) return curText;
+    const r = savedRange;
+    let anc = r.commonAncestorContainer; if (anc.nodeType !== 1) anc = anc.parentElement;
+    const own = anc.closest("span[data-es]");
+    if (own && curText.contains(own) && own.textContent.trim() === r.toString().trim()) return own;
+    if (!create) return curText;
+    const span = document.createElement("span"); span.dataset.es = "";
+    span.appendChild(r.extractContents()); r.insertNode(span);
+    const nr = document.createRange(); nr.selectNodeContents(span); savedRange = nr;
+    return span;
+  }
+  function applyStyle(p, v) {
+    if (!curText) return;
+    const t = styleTarget();
+    if (v) t.style.setProperty(p, v); else t.style.removeProperty(p);
+    markDirty(); syncTT(); 
+  }
+  const curSize = () => Math.round(parseFloat(getComputedStyle(styleTarget(false)).fontSize));
+  function setSize(px) {
+    if (!curText) return;
+    px = Math.max(6, Math.round(px));
+    const t = styleTarget();
+    let v;
+    if (t !== curText) v = (px / parseFloat(getComputedStyle(t.parentElement).fontSize)).toFixed(3) + "em";   // phần chữ chọn: theo tỉ lệ dòng
+    else if (px >= 32) v = `clamp(${Math.round(px * .45)}px, ${(px / innerWidth * 100).toFixed(2)}vw, ${Math.round(px * 1.3)}px)`;   // chữ lớn: co giãn theo màn hình
+    else v = px + "px";
+    t.style.setProperty("font-size", v);
+    markDirty(); syncTT();
+  }
+  function syncTT() {
+    if (!tt || !curText) return;
+    const t = styleTarget(false), cs = getComputedStyle(t);
+    tt.querySelector('[data-k="color"]').value = toHex(cs.color);
+    const sz = tt.querySelector('[data-k="size"]'); if (document.activeElement !== sz) sz.value = Math.round(parseFloat(cs.fontSize));
+    const fam = famOf(t.style.fontFamily);
+    tt.querySelector('[data-k="font"]').value = FONTS.some(f => f[0] === fam) ? fam : "";
+    tt.style.display = "flex";
+    updScope(); placeTT();
+  }
+  function updScope() { if (tt) tt.querySelector(".scope").textContent = hasSel() ? "đang chỉnh: chữ đang chọn" : "đang chỉnh: cả dòng"; }
+  function placeTT() {
+    if (!tt || !curText || tt.style.display === "none") return;
+    const r = curText.getBoundingClientRect();
+    let top = r.top - tt.offsetHeight - 10; if (top < 8) top = Math.min(r.bottom + 10, innerHeight - tt.offsetHeight - 70);
+    const left = Math.min(Math.max(8, r.left), innerWidth - tt.offsetWidth - 8);
+    Object.assign(tt.style, { top: top + "px", left: left + "px" });
+  }
+
+  // ---- Khung ảnh: phóng to + dời vị trí (lưu thành scale / object-position trên thẻ img) ----
+  let fp = null, frameImg = null;
+  const zoomOk = img => !!img.closest(".scene") || getComputedStyle(img.parentElement).overflow !== "visible";
+  function openFrame(img) {
+    frameImg = img;
+    if (!fp) {
+      fp = document.createElement("div"); fp.className = "adm-fp";
+      fp.innerHTML = `<b>khung ảnh</b>
+        <label class="z">phóng to <input type="range" data-f="z" min="1" max="2.5" step="0.01"></label>
+        <label>ngang <input type="range" data-f="x" min="0" max="100" step="1"></label>
+        <label>dọc <input type="range" data-f="y" min="0" max="100" step="1"></label>
+        <div><button type="button" data-f="reset">đặt lại</button><button type="button" class="primary" data-f="done">xong</button></div>`;
+      fp.addEventListener("input", applyFrame);
+      fp.addEventListener("click", e => {
+        const f = e.target.dataset.f;
+        if (f === "reset" && frameImg) { frameImg.style.removeProperty("object-position"); frameImg.style.removeProperty("scale"); syncFrame(); markDirty(); }
+        if (f === "done") closeFrame();
+      });
+      document.body.appendChild(fp);
+    }
+    fp.querySelector(".z").hidden = !zoomOk(img);
+    syncFrame();
+    fp.style.display = "grid";
+  }
+  function syncFrame() {
+    const pp = getComputedStyle(frameImg).objectPosition.split(" ").map(v => v.endsWith("%") ? parseFloat(v) : 50);
+    fp.querySelector('[data-f="x"]').value = pp[0];
+    fp.querySelector('[data-f="y"]').value = pp[1] ?? 50;
+    fp.querySelector('[data-f="z"]').value = parseFloat(frameImg.style.scale) || 1;
+  }
+  function applyFrame() {
+    if (!frameImg) return;
+    const v = k => +fp.querySelector(`[data-f="${k}"]`).value;
+    frameImg.style.objectPosition = `${v("x")}% ${v("y")}%`;
+    const z = v("z");
+    if (z > 1.001 && zoomOk(frameImg)) frameImg.style.scale = z.toFixed(2); else frameImg.style.removeProperty("scale");
+    markDirty();
+  }
+  function closeFrame() { if (fp) fp.style.display = "none"; frameImg = null; }
 
   // Ghi file mới, không đè file đã có (thêm hậu tố nếu trùng tên)
   // Nén ảnh trước khi lưu: cạnh dài tối đa 2000px, WebP 82%. Ảnh gốc trên máy không bị đụng tới.
@@ -920,6 +1113,11 @@
 
       // 1. chữ
       texts.forEach((el, i) => { dTexts[i].innerHTML = el.innerHTML; });
+
+      // 1b. màu / cỡ / font của từng dòng chữ, khung của từng ảnh
+      const mirror = (from, to, props) => { props.forEach(p => { const v = from.style.getPropertyValue(p); if (v) to.style.setProperty(p, v); else to.style.removeProperty(p); }); if (!to.getAttribute("style")) to.removeAttribute("style"); };
+      texts.forEach((el, i) => mirror(el, dTexts[i], ["color", "font-size", "font-family"]));
+      imgs.forEach((im, i) => mirror(im, dImgs[i], ["object-position", "scale"]));
       // 2. ảnh thay thế -> img/uploads/
       const up = await (await rootDir.getDirectoryHandle("img", { create: true })).getDirectoryHandle("uploads", { create: true });
       for (const [k, f] of replaced) dImgs[k].setAttribute("src", "img/uploads/" + encodeURIComponent(await writeImage(up, f)));
@@ -932,6 +1130,7 @@
         fig.innerHTML = `<img loading="lazy" src="img/uploads/${encodeURIComponent(nm)}" alt=""><figcaption></figcaption>`;
         const cap = a.fig.querySelector("figcaption").textContent.trim();
         fig.querySelector("figcaption").textContent = cap;
+        mirror(a.fig.querySelector("img"), fig.querySelector("img"), ["object-position", "scale"]);
         if (cap) fig.querySelector("img").alt = cap + " — 3D render by Nguyen Xuan Vinh";   // alt cho SEO
         dTracks[a.ti].append("  ", fig, "\n  ");
       }
@@ -940,6 +1139,11 @@
         const c = g.querySelector(".g-count"); if (c) c.textContent = "01 / " + String(g.querySelectorAll(".g-track figure").length).padStart(2, "0");
       });
 
+      // font thêm (nếu có chữ dùng font ngoài Anton / Inter) -> thêm vào link Google Fonts
+      const usedFonts = new Set();
+      doc.querySelectorAll("[style*='font-family']").forEach(n => { const f = famOf(n.style.fontFamily); if (FONTS.some(x => x[0] === f) && !BASE_FONTS.includes(f)) usedFonts.add(f); });
+      const gLink = doc.querySelector('link[href*="fonts.googleapis.com/css2"]');
+      if (gLink) gLink.setAttribute("href", FONT_BASE_URL + [...usedFonts].map(f => "&family=" + gfam(f)).join("") + "&display=swap");
       const html = "<!doctype html>\n" + doc.documentElement.outerHTML;
       const stamp = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, "");
       await writeText(rootDir, `index.backup-${stamp}.html`, original);
@@ -1104,8 +1308,8 @@
 
 
 <script src="js/name-particles.js?v=12"></script>
-<script type="module" src="js/fly-gl.js?v=8"></script>
-<script type="module" src="js/hover-gl.js?v=4"></script>
+<script type="module" src="js/fly-gl.js?v=9"></script>
+<script type="module" src="js/hover-gl.js?v=5"></script>
 <script>
   // Ảnh chân dung cao đúng bằng đoạn giới thiệu, mép trên và mép dưới thẳng hàng với chữ
   (() => {

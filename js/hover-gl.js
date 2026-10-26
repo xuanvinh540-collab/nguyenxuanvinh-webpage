@@ -34,7 +34,8 @@ async function start() {
     precision mediump float;
     uniform sampler2D tex;
     uniform vec4 box;            // khung ảnh trên màn hình: x, y (từ trên xuống), rộng, cao (px)
-    uniform vec2 mouse;          // điểm bắt đầu gợn (toạ độ trong khung ảnh, 0..1)
+    uniform vec2 mouse;
+    uniform vec2 fpos;           // object-position của ảnh (0..1, từ trên xuống)          // điểm bắt đầu gợn (toạ độ trong khung ảnh, 0..1)
     uniform float aspect, bright, amp, prog, time, dpr;
     uniform vec2 screen;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -42,7 +43,7 @@ async function start() {
       return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
     vec2 coverUv(vec2 uv){
       float ba = box.z / box.w;                     // object-fit: cover
-      if (ba > aspect) uv.y = (uv.y - .5) * (aspect / ba) + .5; else uv.x = (uv.x - .5) * (ba / aspect) + .5;
+      if (ba > aspect) { float k = aspect / ba; uv.y = uv.y * k + (1. - k) * fpos.y; } else { float k = ba / aspect; uv.x = uv.x * k + (1. - k) * fpos.x; }
       return vec2(uv.x, 1. - uv.y);
     }
     void main(){
@@ -77,7 +78,7 @@ async function start() {
     const u = {
       ...shared,
       tex: { value: null }, aspect: { value: 1.5 }, bright: { value: 1 },
-      box: { value: new THREE.Vector4() }, mouse: { value: new THREE.Vector2(.5, .5) },
+      box: { value: new THREE.Vector4() }, mouse: { value: new THREE.Vector2(.5, .5) }, fpos: { value: new THREE.Vector2(.5, .5) },
       amp: { value: 0 }, prog: { value: 0 },
     };
     const mesh = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: u, vertexShader, fragmentShader, depthTest: false }));
@@ -149,6 +150,8 @@ async function start() {
       const ir = it.img.getBoundingClientRect();
       it.u.box.value.set(ir.left, ir.top, ir.width, ir.height);
       it.u.bright.value = brightOf(it.img);
+      const pp = getComputedStyle(it.img).objectPosition.split(" ").map(v => v.endsWith("%") ? parseFloat(v) / 100 : .5);
+      it.u.fpos.value.set(pp[0], pp[1] ?? .5);
       it.u.prog.value = k;
       it.u.amp.value = Math.sin(Math.PI * Math.min(1, k * 1.15)) * STRENGTH;   // mạnh nhanh rồi lắng dần
       it.mesh.position.set(x + w / 2, -(y + h / 2), 0);

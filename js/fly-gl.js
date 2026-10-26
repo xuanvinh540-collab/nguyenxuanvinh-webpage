@@ -41,7 +41,15 @@ async function start() {
     return new THREE.Vector2(x, 1 - y);
   });
 
+  // khung ảnh chỉnh trong trang edit (object-position + scale trên thẻ img)
+  const frames = scenes.map(s => {
+    const im = s.querySelector("img");
+    const pp = getComputedStyle(im).objectPosition.split(" ").map(v => v.endsWith("%") ? parseFloat(v) / 100 : .5);
+    return new THREE.Vector3(pp[0], 1 - (pp[1] ?? .5), parseFloat(im.style.scale) || 1);
+  });
+
   const uniforms = {
+    f0: { value: frames[0] }, f1: { value: frames[1] },
     t0: { value: items[0].tex }, t1: { value: items[1].tex },
     asp0: { value: items[0].aspect }, asp1: { value: items[1].aspect },
     o0: { value: origins[0] }, o1: { value: origins[1] },
@@ -58,16 +66,18 @@ async function start() {
       uniform sampler2D t0, t1;
       uniform float asp0, asp1, s0, s1, m, time;
       uniform vec2 o0, o1, res;
+      uniform vec3 f0, f1;
       uniform float alpha;
       varying vec2 vUv;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
         return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
       float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 4; i++){ v += a*noise(p); p *= 2.02; a *= .5; } return v; }
-      vec2 cover(vec2 uv, float ia){ float sa = res.x/res.y;
-        if (sa > ia) uv.y = (uv.y-.5)*(ia/sa)+.5; else uv.x = (uv.x-.5)*(sa/ia)+.5; return uv; }
-      vec3 samp(sampler2D t, vec2 uv, float ia, vec2 o, float s, vec2 off, float split){
-        vec2 c = cover(o + (uv - o)/s + off, ia);
+      vec2 cover(vec2 uv, float ia, vec3 f){ float sa = res.x/res.y;   // f = vị trí khung (object-position) + phóng to
+        uv = (uv - .5) / f.z + .5;
+        if (sa > ia) { float k = ia/sa; uv.y = uv.y*k + (1.-k)*f.y; } else { float k = sa/ia; uv.x = uv.x*k + (1.-k)*f.x; } return uv; }
+      vec3 samp(sampler2D t, vec2 uv, float ia, vec2 o, float s, vec2 off, float split, vec3 f){
+        vec2 c = cover(o + (uv - o)/s + off, ia, f);
         vec2 sh = vec2(split, 0.);
         return vec3(texture2D(t, c + sh).r, texture2D(t, c).g, texture2D(t, c - sh).b);
       }
@@ -85,8 +95,8 @@ async function start() {
         vec2 rip = vec2(sin(uv.y*24. + time*3.), cos(uv.x*19. + time*2.4)) * .007 * w;
         // mép tan chảy chạy từ dưới lên theo nhiễu
         float edge = smoothstep(.0, 1., clamp(m*1.6 - .3 + (n - .5)*1.1 + (.5 - uv.y)*.25, 0., 1.));
-        vec3 a = samp(t0, uv, asp0, o0, s0,  dv*w*.28*(edge + .2) + rip + glitch, .008*w);
-        vec3 b = samp(t1, uv, asp1, o1, s1, -dv*w*.28*(1. - edge + .2) + rip + glitch, .008*w);
+        vec3 a = samp(t0, uv, asp0, o0, s0,  dv*w*.28*(edge + .2) + rip + glitch, .008*w, f0);
+        vec3 b = samp(t1, uv, asp1, o1, s1, -dv*w*.28*(1. - edge + .2) + rip + glitch, .008*w, f1);
         gl_FragColor = vec4(mix(a, b, edge), alpha);
       }`,
     depthTest: false, depthWrite: false, transparent: true,
@@ -108,15 +118,17 @@ async function start() {
       uniform sampler2D t0, t1;
       uniform float asp0, asp1, s0, s1, m, time, size, dpr;
       uniform vec2 o0, o1, res;
+      uniform vec3 f0, f1;
       varying vec3 vCol;
-      vec2 cover(vec2 uv, float ia){ float sa = res.x/res.y;
-        if (sa > ia) uv.y = (uv.y-.5)*(ia/sa)+.5; else uv.x = (uv.x-.5)*(sa/ia)+.5; return uv; }
+      vec2 cover(vec2 uv, float ia, vec3 f){ float sa = res.x/res.y;   // f = vị trí khung (object-position) + phóng to
+        uv = (uv - .5) / f.z + .5;
+        if (sa > ia) { float k = ia/sa; uv.y = uv.y*k + (1.-k)*f.y; } else { float k = sa/ia; uv.x = uv.x*k + (1.-k)*f.x; } return uv; }
       void main(){
         // mỗi hạt chạy lệch nhịp một chút để ảnh vỡ và ghép lại dần dần
         float e = clamp((m - aRnd.x * .35) / .65, 0., 1.);
         e = e * e * (3. - 2. * e);
         float burst = sin(e * 3.14159);
-        vec3 cb = texture2D(t1, cover(o1 + (aTo - o1) / s1, asp1)).rgb;
+        vec3 cb = texture2D(t1, cover(o1 + (aTo - o1) / s1, asp1, f1)).rgb;
         // ảnh mới hình thành trên một mặt phẳng 3D đang xoay (nổi khối theo độ sáng), xoay dần về chính diện
         float ar = res.x / res.y;
         float rp = clamp((m - .3) / .6, 0., 1.); rp = rp * rp * (3. - 2. * rp);
@@ -134,7 +146,7 @@ async function start() {
         pos += dir * ${SCATTER.toFixed(3)} * burst * vec2(1., res.x / res.y) * .5;
         pos += vec2(sin(pos.y * 9. + time * 1.3), cos(pos.x * 7. - time)) * .02 * burst;
         float z = (aRnd.x - .5) * ${DEPTH.toFixed(3)} * burst;
-        vec3 ca = texture2D(t0, cover(o0 + (aFrom - o0) / s0, asp0)).rgb;
+        vec3 ca = texture2D(t0, cover(o0 + (aFrom - o0) / s0, asp0, f0)).rgb;
         vCol = mix(ca, cb, e);
         vec2 clip = pos * 2. - 1.;
         float k = 1. / (1. - z * .35);                 // phối cảnh: hạt gần to và văng xa hơn
@@ -197,7 +209,7 @@ async function start() {
     for (let i = 1; i < N; i++) if (p >= i * seg - fade) idx = i;
     let from = idx, to = idx, m = 0;
     if (idx >= 1 && p < idx * seg) { from = idx - 1; m = clamp((p - (idx * seg - fade)) / fade); }
-    uniforms.t0.value = items[from].tex; uniforms.asp0.value = items[from].aspect; uniforms.o0.value = origins[from]; uniforms.s0.value = zoom(from, p);
+    uniforms.t0.value = items[from].tex; uniforms.asp0.value = items[from].aspect; uniforms.o0.value = origins[from]; uniforms.s0.value = zoom(from, p); uniforms.f0.value = frames[from]; uniforms.f1.value = frames[to];
     uniforms.t1.value = items[to].tex;   uniforms.asp1.value = items[to].aspect;   uniforms.o1.value = origins[to];   uniforms.s1.value = zoom(to, p);
     // ảnh đứng yên (không cuộn, không chuyển cảnh) thì không vẽ lại
     if (p === lastP && m === 0 && lastW === stage.clientWidth) return;
