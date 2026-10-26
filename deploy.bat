@@ -1,7 +1,8 @@
 @echo off
 REM ===== Dua portfolio len web (nxvinh.pages.dev) + luu GitHub =====
 REM Bam dup file nay sau khi sua va Luu trong trang edit.
-set PROJECT=nxvinh
+set PROJECT=vinhviz
+set SITEURL=https://nxvinh.pages.dev
 cd /d "%~dp0"
 title Dua len web
 
@@ -33,6 +34,6 @@ git commit -q -m "Cap nhat tu trang edit %date% %time%"
 git push || echo (Khong day len GitHub duoc, nhung web da cap nhat.)
 
 echo.
-echo XONG. Doi 30 giay roi mo https://%PROJECT%.pages.dev va bam Ctrl+Shift+R
+echo XONG. Doi 30 giay roi mo %SITEURL% va bam Ctrl+Shift+R
 echo.
 pause

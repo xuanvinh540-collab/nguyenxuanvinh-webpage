@@ -2,7 +2,7 @@
 
 Tài liệu ghi lại cấu trúc trang, cách chỉnh, cách đưa lên web và quy trình làm một trang tương tự từ đầu.
 
-- Trang web: https://nxvinh.pages.dev (Cloudflare Pages, project `nxvinh`)
+- Trang web: https://nxvinh.pages.dev (Cloudflare Pages, project tên `vinhviz`; địa chỉ vẫn là nxvinh.pages.dev)
 - Mã nguồn: https://github.com/xuanvinh540-collab/nguyenxuanvinh-webpage (nhánh `main`)
 - Thư mục trên máy: `D:\Ai\Vinhportfolio`
 
@@ -106,7 +106,7 @@ flowchart LR
     SRC -- "deploy.bat bước 1<br/>copy" --> SITE
   end
 
-  subgraph CF["Cloudflare Pages — project nxvinh"]
+  subgraph CF["Cloudflare Pages — project vinhviz"]
     WEB["https://nxvinh.pages.dev<br/>HTTPS · chống DDoS · CDN"]
   end
 
@@ -146,7 +146,7 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  P{"Hỏng gì?"} -- "web hiện sai" --> R1["Cloudflare Dashboard → Workers & Pages → nxvinh<br/>→ Deployments → chọn bản cũ → Rollback"]
+  P{"Hỏng gì?"} -- "web hiện sai" --> R1["Cloudflare Dashboard → Workers & Pages → vinhviz<br/>→ Deployments → chọn bản cũ → Rollback"]
   P -- "file trên máy hỏng" --> R2["Chép lại từ _backup/&lt;ngày giờ&gt;/<br/>hoặc index.backup-*.html"]
   P -- "cần bản của một lần commit" --> R3["GitHub → History → xem / tải bản cũ<br/>(hoặc nhờ Claude git revert)"]
 ```
@@ -163,14 +163,14 @@ S=$(date +%Y%m%d-%H%M); mkdir -p _backup/$S && cp -r index.html js img _backup/$
 rm -rf site && mkdir site && cp index.html robots.txt sitemap.xml site/ && cp -r js img site/
 
 # 3. deploy Cloudflare Pages
-npx wrangler@3 pages deploy site --project-name nxvinh --branch main --commit-dirty=true
+npx wrangler@3 pages deploy site --project-name vinhviz --branch main --commit-dirty=true
 
 # 4. lưu lên GitHub
 git add -A && git commit -m "Mô tả thay đổi" && git push
 ```
 
 - Lần đầu dùng wrangler trên máy mới: `npx wrangler@3 login`.
-- Quay lại bản cũ trên web: Cloudflare Dashboard → Workers & Pages → `nxvinh` → Deployments → chọn bản cũ → Rollback.
+- Quay lại bản cũ trên web: Cloudflare Dashboard → Workers & Pages → `vinhviz` → Deployments → chọn bản cũ → Rollback.
 - Hai nơi chưa nối với nhau: push GitHub **không** tự cập nhật web. Muốn tự động thì ở Cloudflare chọn Create → Pages → Connect to Git (sẽ là project mới).
 
 ---
@@ -240,4 +240,4 @@ Dán vào Claude Code, sửa phần trong `< >`:
 
 - Chỉ đăng ảnh dự án khi được công ty / chủ đầu tư đồng ý.
 - Bật xác thực hai bước (2FA) cho tài khoản GitHub và Cloudflare.
-- Tên miền: hiện dùng `nxvinh.pages.dev` (miễn phí). Mua tên miền riêng thì gắn ở Cloudflare → `nxvinh` → Custom domains; link `.pages.dev` vẫn chạy song song.
+- Tên miền: hiện dùng `nxvinh.pages.dev` (miễn phí). Mua tên miền riêng thì gắn ở Cloudflare → `vinhviz` → Custom domains; link `.pages.dev` vẫn chạy song song.
